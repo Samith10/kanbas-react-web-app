@@ -7,7 +7,7 @@ export default function Dashboard() {
       <h2 id="wd-dashboard-published">Published Courses (12)</h2> <hr />
       <div id="wd-dashboard-courses">
         <div className="wd-dashboard-course">
-            <img src="/images/reactjs.webp" width={200} />
+            <img src="/images/reactjs.webp" width={200} alt=""/>
             <div>
                 <Link className="wd-dashboard-course-link"
                 to="/Kanbas/Courses/1234/Home">
@@ -21,7 +21,7 @@ export default function Dashboard() {
         </div>
 
         <div className="wd-dashboard-course"> 
-            <img src="/images/reactjs.webp" width={200} />
+            <img src="/images/reactjs.webp" width={200} alt=""/>
             <div>
                 <Link className="wd-dashboard-course-link"
                 to="/Kanbas/Courses/5010/Home">
@@ -35,7 +35,7 @@ export default function Dashboard() {
         </div>
 
         <div className="wd-dashboard-course">
-            <img src="/images/reactjs.webp" width={200} />
+            <img src="/images/reactjs.webp" width={200} alt=""/>
             <div>
                 <Link className="wd-dashboard-course-link" to="/Kanbas/Courses/2001/Home">
                     CS2001 JavaScript Fundamentals
@@ -48,7 +48,7 @@ export default function Dashboard() {
         </div>
 
         <div className="wd-dashboard-course">
-            <img src="/images/reactjs.webp" width={200} />
+            <img src="/images/reactjs.webp" width={200} alt=""/>
             <div>
                 <Link className="wd-dashboard-course-link" to="/Kanbas/Courses/3002/Home">
                     CS3002 Advanced Python
@@ -61,7 +61,7 @@ export default function Dashboard() {
         </div>
 
         <div className="wd-dashboard-course">
-            <img src="/images/reactjs.webp" width={200} />
+            <img src="/images/reactjs.webp" width={200} alt=""/>
             <div>
                 <Link className="wd-dashboard-course-link" to="/Kanbas/Courses/4003/Home">
                     CS4003 Java Programming
@@ -74,7 +74,7 @@ export default function Dashboard() {
         </div>
 
         <div className="wd-dashboard-course">
-            <img src="/images/reactjs.webp" width={200} />
+            <img src="/images/reactjs.webp" width={200} alt=""/>
             <div>
                 <Link className="wd-dashboard-course-link" to="/Kanbas/Courses/5004/Home">
                     CS5004 C# for Beginners
@@ -87,7 +87,7 @@ export default function Dashboard() {
         </div>
 
         <div className="wd-dashboard-course">
-            <img src="/images/reactjs.webp" width={200} />
+            <img src="/images/reactjs.webp" width={200} alt=""/>
             <div>
                 <Link className="wd-dashboard-course-link" to="/Kanbas/Courses/6005/Home">
                     CS6005 HTML & CSS Basics
@@ -100,7 +100,7 @@ export default function Dashboard() {
         </div>
 
         <div className="wd-dashboard-course">
-            <img src="/images/reactjs.webp" width={200} />
+            <img src="/images/reactjs.webp" width={200} alt=""/>
             <div>
                 <Link className="wd-dashboard-course-link" to="/Kanbas/Courses/7006/Home">
                     CS7006 Introduction to AI
@@ -113,7 +113,7 @@ export default function Dashboard() {
         </div>
 
         <div className="wd-dashboard-course">
-            <img src="/images/reactjs.webp" width={200} />
+            <img src="/images/reactjs.webp" width={200} alt=""/>
             <div>
                 <Link className="wd-dashboard-course-link" to="/Kanbas/Courses/8007/Home">
                     CS8007 Database Management
@@ -126,7 +126,7 @@ export default function Dashboard() {
         </div>
 
         <div className="wd-dashboard-course">
-            <img src="/images/reactjs.webp" width={200} />
+            <img src="/images/reactjs.webp" width={200} alt=""/>
             <div>
                 <Link className="wd-dashboard-course-link" to="/Kanbas/Courses/9008/Home">
                     CS9008 Cloud Computing
@@ -139,7 +139,7 @@ export default function Dashboard() {
         </div>
 
         <div className="wd-dashboard-course">
-            <img src="/images/reactjs.webp" width={200} />
+            <img src="/images/reactjs.webp" width={200} alt=""/>
             <div>
                 <Link className="wd-dashboard-course-link" to="/Kanbas/Courses/10009/Home">
                     CS10009 Cybersecurity Fundamentals
@@ -152,7 +152,7 @@ export default function Dashboard() {
         </div>
 
         <div className="wd-dashboard-course">
-            <img src="/images/reactjs.webp" width={200} />
+            <img src="/images/reactjs.webp" width={200} alt=""/>
             <div>
                 <Link className="wd-dashboard-course-link" to="/Kanbas/Courses/11010/Home">
                     CS11010 DevOps Practices
@@ -165,7 +165,7 @@ export default function Dashboard() {
         </div>
 
         <div className="wd-dashboard-course">
-            <img src="/images/reactjs.webp" width={200} />
+            <img src="/images/reactjs.webp" width={200} alt=""/>
             <div>
                 <Link className="wd-dashboard-course-link" to="/Kanbas/Courses/12011/Home">
                     CS12011 Machine Learning

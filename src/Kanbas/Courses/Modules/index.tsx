@@ -1,7 +1,7 @@
-import { useParams } from 'react-router-dom';
+// import { useParams } from 'react-router-dom';
 
 export default function Modules() {
-  const { courseNum } = useParams();
+  // const { courseNum } = useParams();
 
   const buttonStyle = { marginRight: '4px' }; // Adjust the value for desired spacing
 
