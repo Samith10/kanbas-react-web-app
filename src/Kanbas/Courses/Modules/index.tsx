@@ -11,6 +11,7 @@ export default function Modules() {
         <button type="button" style={buttonStyle}>Collapse All</button>
         <button type="button" style={buttonStyle}>View Progress</button>
         <select id="publish-dropdown" style={buttonStyle}>
+          <option >Publish</option>
           <option selected value="publishAll">Publish All</option>
         </select>
         <button type="button">+ Module</button>
