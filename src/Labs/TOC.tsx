@@ -1,14 +1,58 @@
-import { Link } from "react-router-dom"; 
+import { useLocation, Link } from "react-router-dom";
+
 export default function TOC() {
-    return (
-      <ul>
-        <li><Link to="/Labs">Labs</Link></li>
-        <li><Link to="/Labs/Lab1">Lab 1</Link></li>
-        <li><Link to="/Labs/Lab2">Lab 2</Link></li>
-        <li><Link to="/Labs/Lab3">Lab 3</Link></li>
-        <li><Link to="/Kanbas">Kanbas</Link></li>
-        <li> <a href="https://github.com/Samith10/kanbas-react-web-app" id="wd-github" target="_blank" rel="noopener noreferrer">Github</a><br/></li>
-      </ul>
-    );
-  }
+  const { pathname } = useLocation();
   
+  return (
+    <ul className="nav nav-pills">
+      <li className="nav-item">
+        <Link to="/Labs" className="nav-link" id="wd-a">
+          Labs
+        </Link>
+      </li>
+      <li className="nav-item">
+        <Link 
+          to="/Labs/Lab1" 
+          className={`nav-link ${pathname.includes("Lab1") ? "active" : ""}`} 
+          id="wd-a1"
+        >
+          Lab 1
+        </Link>
+      </li>
+      <li className="nav-item">
+        <Link 
+          to="/Labs/Lab2" 
+          className={`nav-link ${pathname.includes("Lab2") ? "active" : ""}`} 
+          id="wd-a2"
+        >
+          Lab 2
+        </Link>
+      </li>
+      <li className="nav-item">
+        <Link 
+          to="/Labs/Lab3" 
+          className={`nav-link ${pathname.includes("Lab3") ? "active" : ""}`} 
+          id="wd-a3"
+        >
+          Lab 3
+        </Link>
+      </li>
+      <li className="nav-item">
+        <Link to="/Kanbas" className="nav-link" id="wd-k">
+          Kanbas
+        </Link>
+      </li>
+      <li className="nav-item">
+        <a 
+          href="https://github.com/Samith10/kanbas-react-web-app" 
+          className="nav-link" 
+          id="wd-github" 
+          target="_blank" 
+          rel="noopener noreferrer"
+        >
+          My GitHub
+        </a>
+      </li>
+    </ul>
+  );
+}
