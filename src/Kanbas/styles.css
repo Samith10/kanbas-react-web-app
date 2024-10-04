@@ -1,0 +1,35 @@
+body   {  margin: 0;  padding: 0;  }
+body * {  font-family: Arial, Helvetica, sans-serif;  }
+
+@media (min-width: 768px) {
+  #wd-kanbas .wd-main-content-offset {
+    padding-left: 140px !important;
+  }
+}
+.list-group.wd > .list-group-item.active {
+    color: black;
+    background-color: white;
+    border-left: 3px solid black !important;
+  }
+
+/* .list-group-item {
+    position: relative; 
+  }
+  
+  .list-group-item.active {
+    background-color: black;
+    color: white;            
+  }
+  
+  .list-group-item:not(.active) {
+    color: red;
+  } */
+  
+  .vertical-line {
+    position: absolute;
+    left: -5px;
+    top: 0;
+    bottom: 0;
+    width: 4px;
+    background-color: black;
+  }

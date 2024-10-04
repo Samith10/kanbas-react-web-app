@@ -1,70 +1,156 @@
-// import { useParams } from 'react-router-dom';
+import { FaGripVertical, FaCaretDown, FaPlus, FaEllipsisVertical, FaCircleCheck } from 'react-icons/fa6';
+import { AiOutlineStop } from 'react-icons/ai';
+import { FaSearch } from 'react-icons/fa';
+import "bootstrap/dist/js/bootstrap.bundle.min.js";
 
 export default function Modules() {
-  // const { courseNum } = useParams();
-
-  const buttonStyle = { marginRight: '4px' }; // Adjust the value for desired spacing
+  const modules = [
+    {
+      title: "Week 1, Lecture 1 - Course Introduction, Syllabus, Agenda",
+      submodules: [
+        {
+          subtitle: "LEARNING OBJECTIVES",
+          items: [
+            { title: "Introduction to the course" },
+            { title: "Learn what is Web Development" },
+          ],
+        },
+        {
+          subtitle: "READING",
+          items: [
+            { title: "Full Stack Developer - Chapter 1 - Introduction" },
+            { title: "Full Stack Developer - Chapter 2 - Creating Us" },
+          ],
+        },
+        {
+          subtitle: "SLIDES",
+          items: [
+            { title: "Introduction to Web Development" },
+            { title: "Creating an HTTP server with Node.js" },
+            { title: "Creating a React Application" },
+          ],
+        },
+      ],
+    },
+    {
+      title: "Week 1, Lecture 2 - Formatting User Interfaces with HTML",
+      submodules: [
+        {
+          subtitle: "LEARNING OBJECTIVES",
+          items: [
+            { title: "Learn how to create user interfaces with HTML" },
+            { title: "Deploy the assignment to Netlify" },
+          ],
+        },
+        {
+          subtitle: "SLIDES",
+          items: [
+            { title: "Introduction to HTML and the DOM" },
+            { title: "Formatting Web content with Headings" },
+            { title: "Formatting content with Lists and Tables" },
+          ],
+        },
+      ],
+    },
+  ];
 
   return (
-    <div>
-      <div>
-        <button type="button" style={buttonStyle}>Collapse All</button>
-        <button type="button" style={buttonStyle}>View Progress</button>
-        <select id="publish-dropdown" style={buttonStyle}>
-          <option >Publish</option>
-          <option selected value="publishAll">Publish All</option>
-        </select>
-        <button type="button">+ Module</button>
+    <div id="wd-modules" className="container">
+      <div className="d-flex gap-1 mt-3">
+        <div className="input-group w-25 me-auto">
+          <span className="input-group-text">
+            <FaSearch />
+          </span>
+          <input 
+            type="text" 
+            className="form-control" 
+            placeholder="Search..." 
+            aria-label="Search for Module" 
+          />
+        </div>
+        <button type="button" className="btn btn-secondary">Collapse All</button>
+        <button type="button" className="btn btn-secondary">View Progress</button>
+        <div className="dropdown">
+          <button
+            className="btn btn-secondary dropdown-toggle"
+            type="button"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+          >
+            <FaCircleCheck className="me-2" style={{ color: 'lightgreen' }} />
+            Publish All
+          </button>
+          <ul className="dropdown-menu">
+            <li>
+              <a className="dropdown-item" href="#">
+                <FaCircleCheck className="me-2" style={{ color: 'green' }} />
+                Publish all modules and items
+              </a>
+            </li>
+            <li>
+              <a className="dropdown-item" href="#">
+                <FaCircleCheck className="me-2" style={{ color: 'green' }} />
+                Publish modules only
+              </a>
+            </li>
+            <li>
+              <a className="dropdown-item" href="#">
+                <AiOutlineStop className="me-2" style={{ color: 'gray' }} />
+                Unpublish all modules and items
+              </a>
+            </li>
+            <li>
+              <a className="dropdown-item" href="#">
+                <AiOutlineStop className="me-2" style={{ color: 'gray' }} />
+                Unpublish modules only
+              </a>
+            </li>
+          </ul>
+        </div>
+        <button type="button" className="btn btn-danger">
+          <FaPlus className="me-1" /> Module
+        </button>
       </div>
-      <ul id="wd-modules">
-        <li className="wd-module">
-          <div className="wd-title">Week 1, Lecture 1 - Course Introduction, Syllabus, Agenda</div>
-          <ul className="wd-lessons">
-            <li className="wd-lesson">
-              <span className="wd-title">LEARNING OBJECTIVES</span>
-              <ul className="wd-content">
-                <li className="wd-content-item">Introduction to the course</li>
-                <li className="wd-content-item">Learn what is Web Development</li>
-              </ul>
-            </li>
-            <li className="wd-lesson">
-              <span className="wd-title">READING</span>
-              <ul className="wd-content">
-                <li className="wd-content-item">Full Stack Developer - Chapter 1 - Introduction</li>
-                <li className="wd-content-item">Full Stack Developer - Chapter 2 - Creating Us</li>
-              </ul>
-            </li>
-            <li className="wd-lesson">
-              <span className="wd-title">SLIDES</span>
-              <ul className="wd-content">
-                <li className="wd-content-item">Introduction to Web Development</li>
-                <li className="wd-content-item">Creating an HTTP server with Node.js</li>
-                <li className="wd-content-item">Creating a React Application</li>
-              </ul>
-            </li>
-          </ul>
-        </li>
-        <li className="wd-module">
-          <div className="wd-title">Week 1, Lecture 2 - Formatting User Interfaces with HTML</div>
-          <ul className="wd-lessons">
-            <li className="wd-lesson">
-              <span className="wd-title">LEARNING OBJECTIVES</span>
-              <ul className="wd-content">
-                <li className="wd-content-item">Learn how to create user interfaces with HTML</li>
-                <li className="wd-content-item">Deploy the assignment to Netlify</li>
-              </ul>
-            </li>
-            <li className="wd-lesson">
-              <span className="wd-title">SLIDES</span>
-              <ul className="wd-content">
-                <li className="wd-content-item">Introduction to HTML and the DOM</li>
-                <li className="wd-content-item">Formatting Web content with Headings</li>
-                <li className="wd-content-item">Formatting content with Lists and Tables</li>
-              </ul>
-            </li>
-          </ul>
-        </li>
-      </ul>
+
+      {modules.map((module, index) => (
+        <ul className="list-group square-list-group mb-3 mt-4" key={index}>
+          <li className="list-group-item list-group-item-secondary">
+            <div className="d-flex justify-content-start align-items-center">
+              <FaGripVertical className="me-2" />
+              <FaPlus className="me-2" />
+              <div className="module-title flex-grow-1">{module.title}</div>
+              <FaCircleCheck className="me-2" style={{ color: "green" }} />
+              <FaCaretDown className="me-2" />
+              <FaPlus className="me-3" />
+              <FaEllipsisVertical />
+            </div>
+          </li>
+          {module.submodules.map((submodule, subIndex) => (
+            <div key={subIndex}>
+              <li className="list-group-item module-border">
+                <div className="d-flex justify-content-start align-items-center">
+                  <FaGripVertical className="me-2" />
+                  <div className="module-subtitle flex-grow-1">
+                    {submodule.subtitle.toUpperCase()}
+                  </div>
+                  <FaCircleCheck className="me-3" style={{ color: "green" }} />
+                  <FaEllipsisVertical />
+                </div>
+              </li>
+              {submodule.items.length > 0 && submodule.items.map((item, itemIndex) => (
+                <li className="list-group-item module-border" key={itemIndex}>
+                  <div className="d-flex justify-content-start align-items-center">
+                    <FaGripVertical className="me-2" />
+                    <span className="module-item flex-grow-1">{item.title}</span>
+                    <FaCircleCheck className="me-3" style={{ color: "green" }} />
+                    <FaEllipsisVertical />
+                  </div>
+                </li>
+              ))}
+            </div>
+          ))} 
+        </ul>
+      ))}
     </div>
   );
 }
