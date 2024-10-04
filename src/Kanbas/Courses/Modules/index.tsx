@@ -81,30 +81,30 @@ export default function Modules() {
             Publish All
           </button>
           <ul className="dropdown-menu">
-            <li>
-              <a className="dropdown-item" href="#">
-                <FaCircleCheck className="me-2" style={{ color: 'green' }} />
-                Publish all modules and items
-              </a>
-            </li>
-            <li>
-              <a className="dropdown-item" href="#">
-                <FaCircleCheck className="me-2" style={{ color: 'green' }} />
-                Publish modules only
-              </a>
-            </li>
-            <li>
-              <a className="dropdown-item" href="#">
-                <AiOutlineStop className="me-2" style={{ color: 'gray' }} />
-                Unpublish all modules and items
-              </a>
-            </li>
-            <li>
-              <a className="dropdown-item" href="#">
-                <AiOutlineStop className="me-2" style={{ color: 'gray' }} />
-                Unpublish modules only
-              </a>
-            </li>
+          <li>
+  <a className="dropdown-item" href="/dummy-publish-all">
+    <FaCircleCheck className="me-2" style={{ color: 'green' }} />
+    Publish all modules and items
+  </a>
+</li>
+<li>
+  <a className="dropdown-item" href="/dummy-publish-modules">
+    <FaCircleCheck className="me-2" style={{ color: 'green' }} />
+    Publish modules only
+  </a>
+</li>
+<li>
+  <a className="dropdown-item" href="/dummy-unpublish-all">
+    <AiOutlineStop className="me-2" style={{ color: 'gray' }} />
+    Unpublish all modules and items
+  </a>
+</li>
+<li>
+  <a className="dropdown-item" href="/dummy-unpublish-modules">
+    <AiOutlineStop className="me-2" style={{ color: 'gray' }} />
+    Unpublish modules only
+  </a>
+</li>
           </ul>
         </div>
         <button type="button" className="btn btn-danger">
