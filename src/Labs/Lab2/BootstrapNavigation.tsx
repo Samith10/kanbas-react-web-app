@@ -15,7 +15,7 @@ const NavigatingWithTabs = () => {
     <a className="nav-link" href="/dummy-link-2">Link</a>
   </li>
   <li className="nav-item">
-    <a className="nav-link disabled" href="javascript:void(0)">Disabled</a>
+    <a className="nav-link disabled" href="/dummy-link-3">Disabled</a>
   </li>
 </ul>
 
@@ -25,8 +25,8 @@ const NavigatingWithTabs = () => {
   </h2>
   <div className="card"
        style={{ width: "18rem" }}>
-    <img src="images/stacked.jpg"
-         className="card-img-top" />
+<img src="images/stacked.jpg" className="card-img-top" alt="" />
+
     <div className="card-body">
       <h5 className="card-title">
           Stacking Starship
@@ -34,7 +34,7 @@ const NavigatingWithTabs = () => {
       <p className="card-text">
         Stacking the most powerful rocket in history. Mars or bust!
       </p>
-      <a href="#" className="btn btn-primary">
+      <a href="/dummy-link-4" className="btn btn-primary">
         Boldly Go
       </a>
     </div>

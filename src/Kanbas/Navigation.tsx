@@ -13,9 +13,9 @@ export default function KanbasNavigation() {
       style={{ width: 110 }}
       className="list-group rounded-0 position-fixed bottom-0 top-0 d-none d-md-block bg-black z-2"
     >
-      <a href="https://www.northeastern.edu/" className="list-group-item bg-black border-0 text-center">
-        <img src="/images/NEU.png" width="75px" />
-      </a>
+<a href="https://www.northeastern.edu/" className="list-group-item bg-black border-0 text-center">
+  <img src="/images/NEU.png" width="75px" alt="Northeastern University logo" />
+</a>
       <Link 
         to="/Kanbas/Account" 
         id="wd-account-link" 
