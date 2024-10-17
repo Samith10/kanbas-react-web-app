@@ -1,7 +1,9 @@
 import { Link, useParams } from "react-router-dom";
+import * as db from "../../Database";
 
 export default function AssignmentEditor() {
-    const { courseId } = useParams();
+    const { courseId, assignmentId } = useParams();
+    const assignment = db.assignments.find(a => a._id === assignmentId);
 
     const descriptionText = `The assignment is available online\n\nSubmit a link to the landing page of your Web application running on Netlify.\n\nThe landing page should include the following:\n\n- Your full name and section\n- Links to each of the lab assignments\n- Link to the Kanbas application\n- Links to all relevant source code repositories\n\nThe Kanbas application should include a link to navigate back to the landing page.`;
 
@@ -15,7 +17,8 @@ export default function AssignmentEditor() {
                     <input
                         id="wd-name"
                         className="form-control w-50"
-                        placeholder="A1"
+                        defaultValue={assignment ? assignment.title : "Assignment Not Found"}
+                        disabled={!assignment} // Disable if assignment not found
                     />
                 </div>
 
@@ -135,9 +138,9 @@ export default function AssignmentEditor() {
                             <Link to={`/Kanbas/Courses/${courseId}/Assignments`} className="btn btn-light me-2">
                                 Cancel
                             </Link>
-                            <button className="btn btn-danger" type="button">
+                            <Link to={`/Kanbas/Courses/${courseId}/Assignments`} className="btn btn-danger">
                                 Save
-                            </button>
+                            </Link>
                         </span>
                     </div>
                 </div>

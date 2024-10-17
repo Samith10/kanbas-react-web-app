@@ -33,3 +33,24 @@ body * {  font-family: Arial, Helvetica, sans-serif;  }
     width: 4px;
     background-color: black;
   }
+
+  .wd-dashboard-course {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .card-body {
+    flex-grow: 1; /* This allows the body to take the available space */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* This ensures consistent spacing */
+  }
+  
+  .card img {
+    object-fit: cover; /* This makes sure the image covers the entire area without distortion */
+  }
+  
+  .card {
+    height: 100%; /* Ensure card takes full height */
+  }
+  

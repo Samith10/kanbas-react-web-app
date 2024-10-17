@@ -6,6 +6,14 @@ import { Link, useLocation } from "react-router-dom";
 
 export default function KanbasNavigation() {
   const { pathname } = useLocation();
+  const links = [
+    { label: "Dashboard", path: "/Kanbas/Dashboard", icon: AiOutlineDashboard },
+    { label: "Courses",   path: "/Kanbas/Dashboard", icon: LiaBookSolid },
+    { label: "Calendar",  path: "/Kanbas/Calendar",  icon: IoCalendarOutline },
+    { label: "Inbox",     path: "/Kanbas/Inbox",     icon: FaInbox },
+    { label: "Labs",      path: "/Labs",             icon: LiaCogSolid },
+  ];
+
 
   return (
     <div
@@ -16,54 +24,85 @@ export default function KanbasNavigation() {
 <a href="https://www.northeastern.edu/" className="list-group-item bg-black border-0 text-center">
   <img src="/images/NEU.png" width="75px" alt="Northeastern University logo" />
 </a>
-      <Link 
+<Link to="/Kanbas/Account" className={`list-group-item text-center border-0 bg-black
+            ${pathname.includes("Account") ? "bg-white text-danger" : "bg-black text-white"}`}>
+        <FaRegCircleUser className={`fs-1 ${pathname.includes("Account") ? "text-danger" : "text-white"}`} />
+        <br />
+        Account
+      </Link>
+      {links.map((link) => (
+        <Link key={link.path} to={link.path} className={`list-group-item bg-black text-center border-0
+              ${pathname.includes(link.label) ? "text-danger bg-white" : "text-white bg-black"}`}>
+          {link.icon({ className: "fs-1 text-danger"})}
+          <br />
+          {link.label}
+        </Link>
+      ))}
+
+      {/* <Link 
         to="/Kanbas/Account" 
         id="wd-account-link" 
         className={`list-group-item text-center border-0 ${pathname === "/Kanbas/Account" ? "bg-white text-danger" : "bg-black text-white"}`}
       >
         <FaRegCircleUser className="fs-1" /><br />
         Account
-      </Link>
-      <Link 
+      </Link> */}
+      {/* <Link 
         to="/Kanbas/Dashboard" 
         id="wd-dashboard-link" 
         className={`list-group-item text-center border-0 ${pathname === "/Kanbas/Dashboard" ? "bg-white text-danger" : "bg-black text-white"}`}
       >
         <AiOutlineDashboard className={`fs-1 ${pathname === "/Kanbas/Dashboard" ? "text-danger" : "text-danger"}`} /><br />
         Dashboard
-      </Link>
-      <Link 
+      </Link> */}
+      {/* <Link 
         to="/Kanbas/Courses" 
         id="wd-course-link" 
         className={`list-group-item text-center border-0 ${pathname === "/Kanbas/Courses" ? "bg-white text-danger" : "bg-black text-white"}`}
       >
         <LiaBookSolid className={`fs-1 ${pathname === "/Kanbas/Courses" ? "text-danger" : "text-danger"}`} /><br />
         Courses
-      </Link>
-      <Link 
+      </Link> */}
+      {/* <Link 
         to="/Kanbas/Calendar" 
         id="wd-calendar-link" 
         className={`list-group-item text-center border-0 ${pathname === "/Kanbas/Calendar" ? "bg-white text-danger" : "bg-black text-white"}`}
       >
         <IoCalendarOutline className={`fs-1 ${pathname === "/Kanbas/Calendar" ? "text-danger" : "text-danger"}`} /><br />
         Calendar
-      </Link>
-      <Link 
+      </Link> */}
+      {/* <Link 
         to="/Kanbas/Inbox" 
         id="wd-inbox-link" 
         className={`list-group-item text-center border-0 ${pathname === "/Kanbas/Inbox" ? "bg-white text-danger" : "bg-black text-white"}`}
       >
         <FaInbox className={`fs-1 ${pathname === "/Kanbas/Inbox" ? "text-danger" : "text-danger"}`} /><br />
         Inbox
-      </Link>
-      <Link 
+      </Link> */}
+      {/* <Link 
         to="/Labs" 
         id="wd-labs-link" 
         className={`list-group-item text-center border-0 ${pathname === "/Labs" ? "bg-white text-danger" : "bg-black text-white"}`}
       >
         <LiaCogSolid className={`fs-1 ${pathname === "/Labs" ? "text-danger" : "text-danger"}`} /><br />
         Labs
-      </Link>
+      </Link> */}
+
+      {/* <Link to="/Kanbas/Account" className={`list-group-item text-center border-0 bg-black
+            ${pathname.includes("Account") ? "bg-white text-danger" : "bg-black text-white"}`}>
+        <FaRegCircleUser className={`fs-1 ${pathname.includes("Account") ? "text-danger" : "text-white"}`} />
+        <br />
+        Account
+      </Link> */}
+      {/* {links.map((link) => (
+        <Link key={link.path} to={link.path} className={`list-group-item bg-black text-center border-0
+              ${pathname.includes(link.label) ? "text-danger bg-white" : "text-white bg-black"}`}>
+          {link.icon({ className: "fs-1 text-danger"})}
+          <br />
+          {link.label}
+        </Link>
+      ))} */}
+
     </div>
   );
 }

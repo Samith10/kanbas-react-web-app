@@ -2,57 +2,12 @@ import { FaGripVertical, FaCaretDown, FaPlus, FaEllipsisVertical, FaCircleCheck 
 import { AiOutlineStop } from 'react-icons/ai';
 import { FaSearch } from 'react-icons/fa';
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
+import { useParams } from "react-router";
+import * as db from "../../Database";
 
 export default function Modules() {
-  const modules = [
-    {
-      title: "Week 1, Lecture 1 - Course Introduction, Syllabus, Agenda",
-      submodules: [
-        {
-          subtitle: "LEARNING OBJECTIVES",
-          items: [
-            { title: "Introduction to the course" },
-            { title: "Learn what is Web Development" },
-          ],
-        },
-        {
-          subtitle: "READING",
-          items: [
-            { title: "Full Stack Developer - Chapter 1 - Introduction" },
-            { title: "Full Stack Developer - Chapter 2 - Creating Us" },
-          ],
-        },
-        {
-          subtitle: "SLIDES",
-          items: [
-            { title: "Introduction to Web Development" },
-            { title: "Creating an HTTP server with Node.js" },
-            { title: "Creating a React Application" },
-          ],
-        },
-      ],
-    },
-    {
-      title: "Week 1, Lecture 2 - Formatting User Interfaces with HTML",
-      submodules: [
-        {
-          subtitle: "LEARNING OBJECTIVES",
-          items: [
-            { title: "Learn how to create user interfaces with HTML" },
-            { title: "Deploy the assignment to Netlify" },
-          ],
-        },
-        {
-          subtitle: "SLIDES",
-          items: [
-            { title: "Introduction to HTML and the DOM" },
-            { title: "Formatting Web content with Headings" },
-            { title: "Formatting content with Lists and Tables" },
-          ],
-        },
-      ],
-    },
-  ];
+  const { cid } = useParams();
+  const modules = db.modules;
 
   return (
     <div id="wd-modules" className="container">
@@ -81,30 +36,30 @@ export default function Modules() {
             Publish All
           </button>
           <ul className="dropdown-menu">
-          <li>
-  <a className="dropdown-item" href="/dummy-publish-all">
-    <FaCircleCheck className="me-2" style={{ color: 'green' }} />
-    Publish all modules and items
-  </a>
-</li>
-<li>
-  <a className="dropdown-item" href="/dummy-publish-modules">
-    <FaCircleCheck className="me-2" style={{ color: 'green' }} />
-    Publish modules only
-  </a>
-</li>
-<li>
-  <a className="dropdown-item" href="/dummy-unpublish-all">
-    <AiOutlineStop className="me-2" style={{ color: 'gray' }} />
-    Unpublish all modules and items
-  </a>
-</li>
-<li>
-  <a className="dropdown-item" href="/dummy-unpublish-modules">
-    <AiOutlineStop className="me-2" style={{ color: 'gray' }} />
-    Unpublish modules only
-  </a>
-</li>
+            <li>
+              <a className="dropdown-item" href="/dummy-publish-all">
+                <FaCircleCheck className="me-2" style={{ color: 'green' }} />
+                Publish all modules and items
+              </a>
+            </li>
+            <li>
+              <a className="dropdown-item" href="/dummy-publish-modules">
+                <FaCircleCheck className="me-2" style={{ color: 'green' }} />
+                Publish modules only
+              </a>
+            </li>
+            <li>
+              <a className="dropdown-item" href="/dummy-unpublish-all">
+                <AiOutlineStop className="me-2" style={{ color: 'gray' }} />
+                Unpublish all modules and items
+              </a>
+            </li>
+            <li>
+              <a className="dropdown-item" href="/dummy-unpublish-modules">
+                <AiOutlineStop className="me-2" style={{ color: 'gray' }} />
+                Unpublish modules only
+              </a>
+            </li>
           </ul>
         </div>
         <button type="button" className="btn btn-danger">
@@ -118,37 +73,25 @@ export default function Modules() {
             <div className="d-flex justify-content-start align-items-center">
               <FaGripVertical className="me-2" />
               <FaPlus className="me-2" />
-              <div className="module-title flex-grow-1">{module.title}</div>
+              <div className="module-title flex-grow-1">{module.name}</div>
               <FaCircleCheck className="me-2" style={{ color: "green" }} />
               <FaCaretDown className="me-2" />
               <FaPlus className="me-3" />
               <FaEllipsisVertical />
             </div>
           </li>
-          {module.submodules.map((submodule, subIndex) => (
-            <div key={subIndex}>
-              <li className="list-group-item module-border">
-                <div className="d-flex justify-content-start align-items-center">
-                  <FaGripVertical className="me-2" />
-                  <div className="module-subtitle flex-grow-1">
-                    {submodule.subtitle.toUpperCase()}
-                  </div>
-                  <FaCircleCheck className="me-3" style={{ color: "green" }} />
-                  <FaEllipsisVertical />
+          {module.lessons && module.lessons.map((lesson, subIndex) => (
+            <li className="list-group-item module-border" key={subIndex}>
+              <div className="d-flex justify-content-start align-items-center">
+                <FaGripVertical className="me-2" />
+                <div className="module-subtitle flex-grow-1">
+                  {lesson.name.toUpperCase()}
                 </div>
-              </li>
-              {submodule.items.length > 0 && submodule.items.map((item, itemIndex) => (
-                <li className="list-group-item module-border" key={itemIndex}>
-                  <div className="d-flex justify-content-start align-items-center">
-                    <FaGripVertical className="me-2" />
-                    <span className="module-item flex-grow-1">{item.title}</span>
-                    <FaCircleCheck className="me-3" style={{ color: "green" }} />
-                    <FaEllipsisVertical />
-                  </div>
-                </li>
-              ))}
-            </div>
-          ))} 
+                <FaCircleCheck className="me-3" style={{ color: "green" }} />
+                <FaEllipsisVertical />
+              </div>
+            </li>
+          ))}
         </ul>
       ))}
     </div>
