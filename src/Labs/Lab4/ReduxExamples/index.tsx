@@ -1,9 +1,9 @@
-import React from "react";
+// import React from "react";
 import HelloRedux from "./HelloRedux";
 import CounterRedux from "./CounterRedux";
-import Counter from "../Counter";
+// import Counter from "../Counter";
 import AddRedux from "./AddRedux";
-import Add from "../../Lab3/Add";
+// import Add from "../../Lab3/Add";
 export default function ReduxExamples() {
   return(
     <div>

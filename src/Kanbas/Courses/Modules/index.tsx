@@ -2,8 +2,6 @@ import { addModule, editModule, updateModule, deleteModule } from "./reducer";
 import { useSelector, useDispatch } from "react-redux";
 import React, { useState } from "react";
 import { FaGripVertical, FaCaretDown, FaPlus, FaEllipsisVertical, FaCircleCheck } from 'react-icons/fa6';
-import { AiOutlineStop } from 'react-icons/ai';
-import { FaSearch } from 'react-icons/fa';
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import { useParams } from "react-router";
 import ModulesControls from "./ModulesControls";
