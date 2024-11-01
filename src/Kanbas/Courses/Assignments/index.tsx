@@ -1,11 +1,12 @@
 import { FaGripVertical, FaCaretDown, FaPlus, FaEllipsisVertical, FaFilePen, FaCircleCheck } from "react-icons/fa6";
 import { FaSearch } from "react-icons/fa";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useNavigate } from "react-router-dom";
 import * as db from "../../Database";
 
 export default function Assignments() {
   const { cid } = useParams(); // Get the course ID from the URL parameters
-  const courseAssignments = db.assignments; 
+  const navigate = useNavigate(); // Hook for navigation
+  const courseAssignments = db.assignments;
 
   // Adding default values for week, dueDate, and points if needed
   const assignmentsWithDefaults = courseAssignments.map((assignment, index) => ({
@@ -32,7 +33,11 @@ export default function Assignments() {
         <button type="button" className="btn btn-secondary">
           <FaPlus className="me-1" /> Group
         </button>
-        <button type="button" className="btn btn-danger">
+        <button 
+          type="button" 
+          className="btn btn-danger" 
+          onClick={() => navigate(`/Kanbas/Courses/${cid}/Assignments/new`)}
+        >
           <FaPlus className="me-1" /> Assignment
         </button>
       </div>

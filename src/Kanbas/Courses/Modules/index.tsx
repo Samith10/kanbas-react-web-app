@@ -1,17 +1,31 @@
+import { addModule, editModule, updateModule, deleteModule } from "./reducer";
+import { useSelector, useDispatch } from "react-redux";
+import React, { useState } from "react";
 import { FaGripVertical, FaCaretDown, FaPlus, FaEllipsisVertical, FaCircleCheck } from 'react-icons/fa6';
 import { AiOutlineStop } from 'react-icons/ai';
 import { FaSearch } from 'react-icons/fa';
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
-// import { useParams } from "react-router";
-import * as db from "../../Database";
+import { useParams } from "react-router";
+import ModulesControls from "./ModulesControls";
+import ModuleControlButtons from "./ModuleControlButtons";
 
 export default function Modules() {
-  // const { cid } = useParams();
-  const modules = db.modules;
+  const { cid } = useParams();
+  const [moduleName, setModuleName] = useState("");
+  const { modules } = useSelector((state: any) => state.modulesReducer);
+  const dispatch = useDispatch();
 
   return (
     <div id="wd-modules" className="container">
-      <div className="d-flex gap-1 mt-3">
+      <ModulesControls 
+        moduleName={moduleName} 
+        setModuleName={setModuleName}
+        addModule={() => {
+          dispatch(addModule({ name: moduleName, course: cid }));
+          setModuleName("");
+        }} 
+      />
+      {/* <div className="d-flex gap-1 mt-3">
         <div className="input-group w-25 me-auto">
           <span className="input-group-text">
             <FaSearch />
@@ -65,35 +79,58 @@ export default function Modules() {
         <button type="button" className="btn btn-danger">
           <FaPlus className="me-1" /> Module
         </button>
-      </div>
+      </div> */}
 
-      {modules.map((module, index) => (
-        <ul className="list-group square-list-group mb-3 mt-4" key={index}>
-          <li className="list-group-item list-group-item-secondary">
-            <div className="d-flex justify-content-start align-items-center">
-              <FaGripVertical className="me-2" />
-              <FaPlus className="me-2" />
-              <div className="module-title flex-grow-1">{module.name}</div>
-              <FaCircleCheck className="me-2" style={{ color: "green" }} />
-              <FaCaretDown className="me-2" />
-              <FaPlus className="me-3" />
-              <FaEllipsisVertical />
-            </div>
-          </li>
-          {module.lessons && module.lessons.map((lesson, subIndex) => (
-            <li className="list-group-item module-border" key={subIndex}>
+      <ul className="list-group rounded-0">
+        {modules
+          .filter((module: any) => module.course === cid)
+          .map((module: any) => (
+            <li className="list-group-item list-group-item-secondary" key={module._id}>
               <div className="d-flex justify-content-start align-items-center">
                 <FaGripVertical className="me-2" />
-                <div className="module-subtitle flex-grow-1">
-                  {lesson.name.toUpperCase()}
-                </div>
-                <FaCircleCheck className="me-3" style={{ color: "green" }} />
+                {module.editing ? (
+                  <input
+                    className="form-control w-50 d-inline-block"
+                    onChange={(e) =>
+                      dispatch(updateModule({ ...module, name: e.target.value }))
+                    }
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter") {
+                        dispatch(updateModule({ ...module, editing: false }));
+                      }
+                    }}
+                    defaultValue={module.name}
+                  />
+                ) : (
+                  <>
+                    <span className="module-title flex-grow-1">{module.name}</span>
+                    <ModuleControlButtons
+                      moduleId={module._id}
+                      deleteModule={(moduleId) => dispatch(deleteModule(moduleId))}
+                      editModule={(moduleId) => dispatch(editModule(moduleId))}
+                    />
+                  </>
+                )}
+                <FaCircleCheck className="me-2" style={{ color: "green" }} />
+                <FaCaretDown className="me-2" />
+                <FaPlus className="me-3" />
                 <FaEllipsisVertical />
               </div>
+              {module.lessons && module.lessons.map((lesson: { name: string; }, subIndex: React.Key | null | undefined) => (
+                <li className="list-group-item module-border" key={subIndex}>
+                  <div className="d-flex justify-content-start align-items-center">
+                    <FaGripVertical className="me-2" />
+                    <div className="module-subtitle flex-grow-1">
+                      {lesson.name.toUpperCase()}
+                    </div>
+                    <FaCircleCheck className="me-3" style={{ color: "green" }} />
+                    <FaEllipsisVertical />
+                  </div>
+                </li>
+              ))}
             </li>
           ))}
-        </ul>
-      ))}
+      </ul>
     </div>
   );
 }

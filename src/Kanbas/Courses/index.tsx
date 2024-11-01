@@ -6,9 +6,7 @@ import AssignmentEditor from "./Assignments/Editor";
 import { Navigate, Route, Routes, useParams, useLocation } from "react-router";
 import { FaAlignJustify } from "react-icons/fa";
 import PeopleTable from "./People/Table";
-import { courses } from "../Database";
-
-export default function Courses() {
+export default function Courses({ courses }: { courses: any[]; }) {
   const { cid } = useParams(); // Get the course ID from the URL parameters
   const course = courses.find((course) => course._id === cid); // Look up the course in the database
   const { pathname } = useLocation();
