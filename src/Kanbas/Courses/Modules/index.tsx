@@ -1,27 +1,52 @@
-import { addModule, editModule, updateModule, deleteModule } from "./reducer";
+import {setModules, addModule, editModule, updateModule, deleteModule } from "./reducer";
 import { useSelector, useDispatch } from "react-redux";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { FaGripVertical, FaCaretDown, FaPlus, FaEllipsisVertical, FaCircleCheck } from 'react-icons/fa6';
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import { useParams } from "react-router";
 import ModulesControls from "./ModulesControls";
 import ModuleControlButtons from "./ModuleControlButtons";
+import * as coursesClient from "./client";
+import * as modulesClient from "./client";
+
 
 export default function Modules() {
   const { cid } = useParams();
   const [moduleName, setModuleName] = useState("");
   const { modules } = useSelector((state: any) => state.modulesReducer);
+  const fetchModules = async () => {
+    const modules = await coursesClient.findModulesForCourse(cid as string);
+    dispatch(setModules(modules));
+  };
+  useEffect(() => {
+    fetchModules();
+  }, []);
+
   const dispatch = useDispatch();
+  const createModuleForCourse = async () => {
+    if (!cid) return;
+    const newModule = { name: moduleName, course: cid };
+    const module = await coursesClient.createModuleForCourse(cid, newModule);
+    dispatch(addModule(module));
+  };
+  const removeModule = async (moduleId: string) => {
+    await modulesClient.deleteModule(moduleId);
+    dispatch(deleteModule(moduleId));
+  };
+  const saveModule = async (module: any) => {
+    await modulesClient.updateModule(module);
+    dispatch(updateModule(module));
+  };
+
+
+
 
   return (
     <div id="wd-modules" className="container">
       <ModulesControls 
         moduleName={moduleName} 
         setModuleName={setModuleName}
-        addModule={() => {
-          dispatch(addModule({ name: moduleName, course: cid }));
-          setModuleName("");
-        }} 
+        addModule={createModuleForCourse} 
       />
       {/* <div className="d-flex gap-1 mt-3">
         <div className="input-group w-25 me-auto">
@@ -81,7 +106,6 @@ export default function Modules() {
 
       <ul className="list-group rounded-0">
         {modules
-          .filter((module: any) => module.course === cid)
           .map((module: any) => (
             <li className="list-group-item list-group-item-secondary" key={module._id}>
               <div className="d-flex justify-content-start align-items-center">
@@ -94,8 +118,7 @@ export default function Modules() {
                     }
                     onKeyDown={(e) => {
                       if (e.key === "Enter") {
-                        dispatch(updateModule({ ...module, editing: false }));
-                      }
+                        saveModule({ ...module, editing: false });                      }
                     }}
                     defaultValue={module.name}
                   />
@@ -104,7 +127,7 @@ export default function Modules() {
                     <span className="module-title flex-grow-1">{module.name}</span>
                     <ModuleControlButtons
                       moduleId={module._id}
-                      deleteModule={(moduleId) => dispatch(deleteModule(moduleId))}
+                      deleteModule={(moduleId) => removeModule(moduleId)}
                       editModule={(moduleId) => dispatch(editModule(moduleId))}
                     />
                   </>
