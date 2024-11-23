@@ -8,13 +8,13 @@ import ModulesControls from "./ModulesControls";
 import ModuleControlButtons from "./ModuleControlButtons";
 import * as coursesClient from "./client";
 import * as modulesClient from "./client";
-const dispatch = useDispatch();
 
 
 export default function Modules() {
   const { cid } = useParams();
   const [moduleName, setModuleName] = useState("");
   const { modules } = useSelector((state: any) => state.modulesReducer);
+  const dispatch = useDispatch();
 const fetchModules = useCallback(async () => {
   const modules = await coursesClient.findModulesForCourse(cid as string);
   dispatch(setModules(modules));
