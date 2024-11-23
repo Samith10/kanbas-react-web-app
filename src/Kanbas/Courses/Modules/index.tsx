@@ -1,6 +1,6 @@
 import {setModules, addModule, editModule, updateModule, deleteModule } from "./reducer";
 import { useSelector, useDispatch } from "react-redux";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { FaGripVertical, FaCaretDown, FaPlus, FaEllipsisVertical, FaCircleCheck } from 'react-icons/fa6';
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import { useParams } from "react-router";
@@ -14,10 +14,11 @@ export default function Modules() {
   const { cid } = useParams();
   const [moduleName, setModuleName] = useState("");
   const { modules } = useSelector((state: any) => state.modulesReducer);
-  const fetchModules = async () => {
+  const fetchModules = useCallback(async () => {
     const modules = await coursesClient.findModulesForCourse(cid as string);
     dispatch(setModules(modules));
-  };
+  }, [cid]);
+  
   useEffect(() => {
     fetchModules();
   }, [fetchModules]); 
