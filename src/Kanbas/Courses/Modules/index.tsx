@@ -20,7 +20,7 @@ export default function Modules() {
   };
   useEffect(() => {
     fetchModules();
-  }, []);
+  }, [fetchModules]); 
 
   const dispatch = useDispatch();
   const createModuleForCourse = async () => {

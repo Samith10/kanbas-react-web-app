@@ -19,13 +19,13 @@ export default function WorkingWithArraysAsynchronously() {
     const todos = await client.createTodo();
     setTodos(todos);
   };
-  const postTodo = async () => {
-    const newTodo = await client.postTodo({
-      title: "New Posted Todo",
-      completed: false,
-    });
-    setTodos([...todos, newTodo]);
-  };
+  // const postTodo = async () => {
+  //   const newTodo = await client.postTodo({
+  //     title: "New Posted Todo",
+  //     completed: false,
+  //   });
+  //   setTodos([...todos, newTodo]);
+  // };
   const editTodo = (todo: any) => {
     const updatedTodos = todos.map((t) =>
       t.id === todo.id ? { ...todo, editing: true } : t

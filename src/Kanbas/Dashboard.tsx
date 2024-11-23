@@ -1,7 +1,7 @@
 // import React, { useState } from "react";
 import { Link } from "react-router-dom";
 // import * as db from "./Database";
-import { useSelector } from "react-redux";
+// import { useSelector } from "react-redux";
 
 export default function Dashboard({ 
   courses, course, setCourse, addNewCourse,
@@ -9,7 +9,7 @@ export default function Dashboard({
   courses: any[]; course: any; setCourse: (course: any) => void;
   addNewCourse: () => void; deleteCourse: (course: any) => void;
   updateCourse: () => void; }) {
-    const { currentUser } = useSelector((state: any) => state.accountReducer);
+    // const { currentUser } = useSelector((state: any) => state.accountReducer);
     // const { enrollments } = db;
   return (
     <div id="wd-dashboard">
