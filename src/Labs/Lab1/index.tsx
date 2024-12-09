@@ -74,11 +74,9 @@ export default function Lab1() {
         </ul>
         Your favorite books (in no particular order)
         <ul id="wd-your-books">
-          <li>To Kill a Mockingbird</li>
-          <li>1984</li>
-          <li>The Great Gatsby</li>
-          <li>Pride and Prejudice</li>
-          <li>The Catcher in the Rye</li>
+        <li>Project Hail Mary</li>
+        <li>When Breath Becomes Air</li>
+        <li>Dark Matter</li>
         </ul>
       </div>
       <div id="wd-tables">
@@ -167,15 +165,16 @@ export default function Lab1() {
         Loading an image from the internet:
         <br />
         <img
-          id="wd-starship"
-          width="400px"
-          src="https://www.staradvertiser.com/wp-content/uploads/2021/08/web1_Starship-gap2.jpg"
-        />
+  id="wd-starship"
+  width="400px"
+  src="https://www.staradvertiser.com/wp-content/uploads/2021/08/web1_Starship-gap2.jpg"
+  alt="Starship image from Star Advertiser"
+/>
         <br />
         Loading a local image:
         <br />
-        <img id="wd-teslabot" src="images/teslabot.jpg" height="200px" />
-      </div>
+        <img id="wd-teslabot" src="images/teslabot.jpg" height="200px" alt="Teslabot image" />
+        </div>
 
       <div id="wd-forms">
         <h4>Form Elements</h4>

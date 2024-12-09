@@ -6,7 +6,10 @@ import Signup from "./Signup";
 import { useSelector } from "react-redux";
 
 export default function Account() {
-  const { currentUser } = useSelector((state: any) => state.accountReducer);
+  const currentUser = useSelector((state: any) => {
+    console.log('Full Redux State:', state);
+    return state.accountReducer?.currentUser || null;
+  });
 
   return (
     <div id="wd-account-screen">

@@ -8,18 +8,53 @@ import Inbox from "./Inbox";
 import "./styles.css";
 import { useState, useEffect } from "react";
 import store from "./store";
-import { Provider } from "react-redux";
+import { Provider, useSelector } from "react-redux";
 import * as client from "./Courses/client";
+import * as userClient from "./Account/client";
 import ProtectedRoute from "./ProtectedRoute";
 export default function Kanbas() {
   const [courses, setCourses] = useState<any[]>([]);
+  const { currentUser } = useSelector((state: any) => state.accountReducer);
+  const [enrolling, setEnrolling] = useState<boolean>(false);
+  const findCoursesForUser = async () => {
+    try {
+      const courses = await userClient.findCoursesForUser(currentUser._id);
+      setCourses(courses);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const updateEnrollment = async (courseId: string, enrolled: boolean) => {
+    if (enrolled) {
+      await userClient.enrollIntoCourse(currentUser._id, courseId);
+    } else {
+      await userClient.unenrollFromCourse(currentUser._id, courseId);
+    }
+    setCourses(
+      courses.map((course) => {
+        if (course._id === courseId) {
+          return { ...course, enrolled: enrolled };
+        } else {
+          return course;
+        }
+      })
+    );
+  };
+ 
+ 
   const fetchCourses = async () => {
     const courses = await client.fetchAllCourses();
     setCourses(courses);
   };
   useEffect(() => {
+    if (enrolling) {
+      fetchCourses();
+    } else {
+      findCoursesForUser();
+    }
     fetchCourses();
-  }, []);
+  }, [currentUser, enrolling]);
 
   const [course, setCourse] = useState<any>({
     _id: "1234",
@@ -71,6 +106,7 @@ export default function Kanbas() {
                       addNewCourse={addNewCourse}
                       deleteCourse={deleteCourse}
                       updateCourse={updateCourse}
+                      enrolling={enrolling} setEnrolling={setEnrolling} updateEnrollment={updateEnrollment}
                     />
                   </ProtectedRoute>
                 }
