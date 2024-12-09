@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from "react";
+import axios from "axios";
 import * as client from "./client";
+const REMOTE_SERVER = process.env.REACT_APP_REMOTE_SERVER_A;
 
 export default function HttpClient() {
   const [welcomeOnClick, setWelcomeOnClick] = useState("");
   const [welcomeOnLoad, setWelcomeOnLoad] = useState("");
-
   const fetchWelcomeOnClick = async () => {
+    const response = await axios.get(`${REMOTE_SERVER}/lab5/welcome`);
     const message = await client.fetchWelcomeMessage();
     setWelcomeOnClick(message);
   };
@@ -26,7 +28,7 @@ export default function HttpClient() {
       </button>{" "}
       <br />
       Response from server: <b>{welcomeOnClick}</b>
-      <hr/>
+      <hr />
       <h4>Requesting on Load</h4>
       Response from server: <b>{welcomeOnLoad}</b>
       <hr />

@@ -8,6 +8,6 @@ export default function PassingFunctions(
          </button>
          <hr/>
        </div>
-   );}
+     );}
    
    

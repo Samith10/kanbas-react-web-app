@@ -10,6 +10,6 @@ export default function ChildStateComponent({ counter, setCounter }:
             Decrement</button>
           <hr/>
         </div>
-    );}
-    
+      );
+    }
     

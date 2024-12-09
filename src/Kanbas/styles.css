@@ -7,35 +7,9 @@ body * {  font-family: Arial, Helvetica, sans-serif;  }
   }
 }
 
-.list-group.wd > .list-group-item.active {
-  color: black;
-  background-color: white;
-  border-left: 3px solid black !important;
+.wd-kanbas-navigation{
+width: min-content;
 }
-.btn-secondary {
-  --bs-btn-color: #000 !important;
-  --bs-btn-bg: #c7cdd1 !important;
-  --bs-btn-border-color: #c7cdd1 !important;
-  --bs-btn-hover-color: #fff !important;
-}
-.bg-secondary {
-  --bs-secondary-rgb: 199, 205, 209;
-}
-.list-group-item {
-  --bs-list-group-border-color: gray;
-}
-.wd-lesson {
-  border-left: 3px solid green !important;
-}
-
-.wd-assignment-link {
-  color: rgba(56, 9, 9, 0.932);          
-  text-decoration: none;  
-}
-
-
-a {
-  color: black !important;      
-  text-decoration: none !important;  
-}
-
+.custom-border-left {
+    border-left: thick solid green;
+  }

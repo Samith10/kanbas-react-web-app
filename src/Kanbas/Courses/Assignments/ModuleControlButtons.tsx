@@ -1,16 +1,14 @@
-import { IoEllipsisVertical } from "react-icons/io5";
-import { FaPlus } from "react-icons/fa";
-
+import React from 'react';
+import { IoEllipsisVertical } from 'react-icons/io5';
+import { BsPlus } from 'react-icons/bs';
+import GreenCheckmark from './GreenCheckmark';
+ 
 export default function ModuleControlButtons() {
   return (
     <div className="float-end">
-       <span className="border sqaure px-2 py-1 me-2"
-       style={{ borderColor: 'black' }}>
-        40% of Total
-      </span>
-      <FaPlus/>
+      <GreenCheckmark />
+      <BsPlus className="fs-4" />
       <IoEllipsisVertical className="fs-4" />
-      
     </div>
   );
 }

@@ -10,5 +10,5 @@ export default function ParentStateComponent() {
         setCounter={setCounter} />
       <hr/>
     </div>
-);}
-
+  );
+}
