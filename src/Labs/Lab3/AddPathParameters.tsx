@@ -5,3 +5,4 @@ export default function AddPathParameters() {
     <div id="wd-add"> <h4>Add Path Parameters</h4>
       {a} + {b} = {parseInt(a as string) + parseInt(b as string)}
     </div>);}
+

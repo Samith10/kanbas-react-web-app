@@ -2,35 +2,26 @@ import { Link, useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 export default function AccountNavigation() {
-  const location = useLocation();
   const { currentUser } = useSelector((state: any) => state.accountReducer);
+  const { pathname } = useLocation();
 
-  const links = currentUser
-    ? [
-        { id: 'wd-account-profile-link', to: '/Kanbas/Account/Profile', label: 'Profile' },
-      ]
-    : [
-        { id: 'wd-account-signin-link', to: '/Kanbas/Account/Signin', label: 'Signin' },
-        { id: 'wd-account-signup-link', to: '/Kanbas/Account/Signup', label: 'Signup' },
-      ];
+
+  const links = currentUser ? ["Profile"] : ["Signin", "Signup"];
+  const adminLinks = currentUser?.role === "ADMIN" ? ["Users"] : [];
+  const allLinks = [...links, ...adminLinks];
 
   return (
-    <div id="wd-account-navigation" className="wd list-group fs-5 rounded-0">
-      {links.map(link => {
-        const isActive = location.pathname === link.to;
-        return (
+    <div id="wd-account-navigation">
+      {allLinks.map((link) => (
+        <div key={link}>
           <Link
-            key={link.id}
-            id={link.id}
-            to={link.to}
-            className={`list-group-item border-0 ${isActive ? 'text-black' : 'text-danger'}`}
-            style={isActive ? { position: 'relative' } : {}}
+            to={`/Kanbas/Account/${link}`}
+            className={pathname.includes(link) ? "active-link" : ""}
           >
-            {isActive && <div className="vertical-line" />}
-            {link.label}
+            {link}
           </Link>
-        );
-      })}
+        </div>
+      ))}
     </div>
   );
 }

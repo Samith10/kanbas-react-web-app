@@ -9,12 +9,11 @@ export default function HttpClient() {
     const message = await client.fetchWelcomeMessage();
     setWelcomeOnClick(message);
   };
-
+  const fetchWelcomeOnLoad = async () => {
+    const welcome = await client.fetchWelcomeMessage();
+    setWelcomeOnLoad(welcome);
+  };
   useEffect(() => {
-    const fetchWelcomeOnLoad = async () => {
-      const welcome = await client.fetchWelcomeMessage();
-      setWelcomeOnLoad(welcome);
-    };
     fetchWelcomeOnLoad();
   }, []);
 
@@ -24,9 +23,10 @@ export default function HttpClient() {
       <h4>Requesting on Click</h4>
       <button className="btn btn-primary me-2" onClick={fetchWelcomeOnClick}>
         Fetch Welcome
-      </button>
+      </button>{" "}
+      <br />
       Response from server: <b>{welcomeOnClick}</b>
-      <hr />
+      <hr/>
       <h4>Requesting on Load</h4>
       Response from server: <b>{welcomeOnLoad}</b>
       <hr />

@@ -1,18 +1,16 @@
-import './index.css';
+export default function BootstrapList(){
+    return(
+        <div id="wd-css-styling-lists">
+  <h2>Favorite movies</h2>
+  <ul className="list-group">
+    <li className="list-group-item active">Aliens</li>
+    <li className="list-group-item">Terminator</li>
+    <li className="list-group-item">Blade Runner</li>
+    <li className="list-group-item">Lord of the Ring</li>
+    <li className="list-group-item disabled">Star Wars</li>
+  </ul>
 
-const StylingLists = () => {
-  return (
-    <div id="wd-css-styling-lists">
-      <h2>Favorite movies</h2>
-      <ul className="list-group">
-        <li className="list-group-item active">Aliens</li>
-        <li className="list-group-item">Terminator</li>
-        <li className="list-group-item">Blade Runner</li>
-        <li className="list-group-item">Lord of the Ring</li>
-        <li className="list-group-item disabled">Star Wars</li>
-      </ul>
-
-      <div id="wd-css-hyperlink-list">
+  <div id="wd-css-hyperlink-list">
   <h3>Favorite books</h3>
   <div className="list-group">
     <a href="https://en.wikipedia.org/wiki/Dune_(novel)" 
@@ -32,8 +30,6 @@ const StylingLists = () => {
        Ender's Game</a>
   </div>
 </div>
-    </div>
-  );
-};
-
-export default StylingLists;
+</div>
+    )
+}

@@ -1,6 +1,4 @@
-import './index.css';
-
-const GridLayout = () => {
+export default function GridLayout() {
   return (
     <div id="wd-css-grid-layout">
       <div id="wd-css-left-right-layout">
@@ -15,7 +13,10 @@ const GridLayout = () => {
         </div>
       </div>
       <div id="wd-css-left-third-right-two-thirds" className="wd-grid-row">
-        <div className="wd-grid-col-third-page wd-bg-color-green wd-fg-color-white">
+        <div
+          className="wd-grid-col-third-page wd-bg-color-green
+        wd-fg-color-white"
+        >
           <h3>Left third</h3>
         </div>
         <div className="wd-grid-col-two-thirds-page wd-bg-color-red wd-fg-color-white">
@@ -30,8 +31,8 @@ const GridLayout = () => {
         <div className="wd-grid-col-main-content wd-bg-color-blue wd-fg-color-white">
           <h3>Main content</h3>
           <p>
-            This is the main content. This is the main content. This is the
-            main content.
+            This is the main content. This is the main content. This is the main
+            content.
           </p>
         </div>
         <div className="wd-grid-col-right-sidebar wd-bg-color-green wd-fg-color-white">
@@ -41,6 +42,4 @@ const GridLayout = () => {
       </div>
     </div>
   );
-};
-
-export default GridLayout;
+}

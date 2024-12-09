@@ -1,85 +1,88 @@
-import { FaGripVertical, FaCaretDown, FaPlus, FaEllipsisVertical, FaFilePen, FaCircleCheck } from "react-icons/fa6";
-import { FaSearch } from "react-icons/fa";
-import { Link, useParams, useNavigate } from "react-router-dom";
-import * as db from "../../Database";
+import React from "react";
+import { Link } from "react-router-dom";
+import { useState, useEffect } from "react";
+import AssignmentControls from "./AssignmentControls";
+import ModuleControlButtons from "./ModuleControlButtons";
+import LessonControlButtons from "./LessonControlButtons";
+import { FaClipboardCheck } from "react-icons/fa";
+import { BsGripVertical } from "react-icons/bs";
+import { useParams } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { setAssignments, deleteAssignment } from "./reducer";
+import * as assignmentClient from "./client";
 
 export default function Assignments() {
-  const { cid } = useParams(); // Get the course ID from the URL parameters
-  const navigate = useNavigate(); // Hook for navigation
-  const courseAssignments = db.assignments;
+  const { cid } = useParams<{ cid: string }>();
+  const assignments = useSelector(
+    (state: any) => state.assignmentsReducer.assignments
+  );
 
-  // Adding default values for week, dueDate, and points if needed
-  const assignmentsWithDefaults = courseAssignments.map((assignment, index) => ({
-    ...assignment,
-    week: `Week ${Math.ceil((index + 1) / 3)}`,
-    dueDate: `Due Date ${index + 1}`, // Placeholder for actual due date
-    points: 100 // Default points value
-  }));
+  const dispatch = useDispatch();
+
+  const fetchAssignments = async () => {
+    const assignments = await assignmentClient.fetchAllAssignments(
+      cid as string
+    );
+    dispatch(setAssignments(assignments));
+  };
+  useEffect(() => {
+    fetchAssignments();
+  }, []);
+
+  const handleDeleteAssignment = async (assignmentId: string) => {
+    const status = await assignmentClient.deleteAssignment(assignmentId);
+    dispatch(deleteAssignment(assignmentId)); // Dispatch Redux action
+  };
 
   return (
-    <div id="wd-assignments" className="container">
-      <div className="d-flex gap-1 mt-3">
-        <div className="input-group w-25 me-auto">
-          <span className="input-group-text">
-            <FaSearch />
-          </span>
-          <input 
-            type="text" 
-            className="form-control" 
-            placeholder="Search..." 
-            aria-label="Search for Assignment" 
-          />
-        </div>
-        <button type="button" className="btn btn-secondary">
-          <FaPlus className="me-1" /> Group
-        </button>
-        <button 
-          type="button" 
-          className="btn btn-danger" 
-          onClick={() => navigate(`/Kanbas/Courses/${cid}/Assignments/new`)}
-        >
-          <FaPlus className="me-1" /> Assignment
-        </button>
-      </div>
-
-      <ul className="list-group square-list-group mb-3 mt-4">
-        <li className="list-group-item list-group-item-secondary">
-          <div className="d-flex justify-content-start align-items-center">
-            <FaGripVertical className="me-2" />
-            <FaCaretDown className="me-2" />
-            <div className="assignment-title flex-grow-1">Assignments</div>
-            <small className="border border-black rounded-pill p-1 me-3">40% of Total</small>
-            <FaPlus className="me-3" />
-            <FaEllipsisVertical className="me-3" />
-          </div>
-        </li>
-        {assignmentsWithDefaults.map((assignment) => (
-          <li className="list-group-item assignment-border" key={assignment._id}>
-            <div className="d-flex justify-content-start align-items-center">
-              <div className="border-start border-3 border-success me-3"></div>
-              <FaGripVertical className="me-2" />
-              <FaFilePen className="assignment-item-icon fa-lg me-3" />
-              <div className="assignment-item flex-grow-1">
-                <div className="d-flex flex-column">
-                  <div className="assignment-item">
-                    <Link
-                      to={`/Kanbas/Courses/${cid}/Assignments/${assignment._id}`}
-                      className="assignment-link"
-                    >
-                      {assignment.title}
-                    </Link>
-                  </div>
-                  <small className="text-body-secondary">{assignment.week}</small>
-                  <small className="text-body-secondary">
-                    <b>Due</b> {assignment.dueDate} | {assignment.points} pts
-                  </small>
-                </div>
-              </div>
-              <FaCircleCheck className="fa-lg me-3" style={{ color: 'green' }} />
-              <FaEllipsisVertical className="me-3" />
+    <div id="wd-assignments">
+      <AssignmentControls />
+      <br />
+      <br />
+      <ul id="wd-assignments-title" className="list-group rounded-0">
+        <li className="wd-assignment-list-group-item p-0 mb-5 fs-5 border-gray">
+          <div className="wd-title p-3 ps-2 bg-secondary d-flex align-items-center">
+            <BsGripVertical className="me-2 fs-3" />
+            ASSIGNMENTS
+            <div className="ms-auto">
+              <ModuleControlButtons />
             </div>
-          </li>
-        ))}
+          </div>
+
+          <ul className="wd-lessons list-group rounded-0">
+            {assignments.map((assignment: any) => (
+              <li
+                className="wd-lesson list-group-item p-3 ps-1 d-flex align-items-center"
+                key={assignment._id}
+              >
+                <BsGripVertical className="fs-3 me-2" />
+                <FaClipboardCheck color="green" size={20} className="me-3" />
+                <Link
+                  className="wd-assignment-link flex-grow-1"
+                  to={`/Kanbas/Courses/${cid}/Assignments/${assignment._id}`}
+                >
+                  {assignment.title}
+                </Link>
+                <LessonControlButtons
+                  deleteAssignment={() => {
+                    if (
+                      window.confirm(
+                        "Are you sure you want to delete this assignment?"
+                      )
+                    ) {
+                      handleDeleteAssignment(assignment._id);
+                    }
+                  }}
+                />
+                <div className="wd-assignment-description">
+                  Multiple Modules | <strong>Not available until</strong>{" "}
+                  {assignment.availableFrom} | <strong>Due</strong>{" "}
+                  {assignment.dueDate} | {assignment.points} pts
+                </div>
+              </li>
+            ))}
+          </ul>
+        </li>
       </ul>
     </div>
   );

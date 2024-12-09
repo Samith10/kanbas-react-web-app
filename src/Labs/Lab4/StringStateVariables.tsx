@@ -10,3 +10,4 @@ export default function StringStateVariables() {
         defaultValue={firstName}
         onChange={(e) => setFirstName(e.target.value)}/>
 <hr/></div>);}
+

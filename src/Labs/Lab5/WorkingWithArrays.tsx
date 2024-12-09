@@ -1,32 +1,38 @@
 import React, { useState } from "react";
 
 const REMOTE_SERVER = process.env.REACT_APP_REMOTE_SERVER;
-
 export default function WorkingWithArrays() {
   const API = `${REMOTE_SERVER}/lab5/todos`;
   const [todo, setTodo] = useState({
     id: "1",
-    title: "New Title",
-    description: "Updated Description",
+    title: "NodeJS Assignment",
+    description: "Create a NodeJS server with ExpressJS",
+    due: "2021-09-09",
     completed: false,
   });
 
   return (
     <div id="wd-working-with-arrays">
       <h3>Working with Arrays</h3>
-
-      {/* Retrieving all todos */}
       <h4>Retrieving Arrays</h4>
       <a id="wd-retrieve-todos" className="btn btn-primary" href={API}>
-        Get Todos
+        Get Todos{" "}
+      </a>
+      <hr />
+      <h3>Filtering Array Items</h3>
+      <a
+        id="wd-retrieve-completed-todos"
+        className="btn btn-primary"
+        href={`${API}?completed=true`}
+      >
+        Get Completed Todos
       </a>
       <hr />
 
-      {/* Retrieving todo by ID */}
       <h4>Retrieving an Item from an Array by ID</h4>
       <a
         id="wd-retrieve-todo-by-id"
-        className="btn btn-primary"
+        className="btn btn-primary float-end"
         href={`${API}/${todo.id}`}
       >
         Get Todo by ID
@@ -38,91 +44,81 @@ export default function WorkingWithArrays() {
         onChange={(e) => setTodo({ ...todo, id: e.target.value })}
       />
       <hr />
-
-      {/* Filtering todos by completion */}
-      <h4>Filtering Array Items</h4>
+      <h3>Creating new Items in an Array</h3>
       <a
         id="wd-retrieve-completed-todos"
         className="btn btn-primary"
-        href={`${API}?completed=true`}
+        href={`${API}/create`}
       >
-        Get Completed Todos
-      </a>
-      <hr />
-
-      {/* Creating a new todo */}
-      <h4>Creating new Items in an Array</h4>
-      <a id="wd-create-todo" className="btn btn-primary" href={`${API}/create`}>
         Create Todo
       </a>
       <hr />
-
-      {/* Deleting a todo */}
-      <h4>Deleting from an Array</h4>
+      <h3>Deleting from an Array</h3>
       <a
-        id="wd-delete-todo"
-        className="btn btn-primary"
+        id="wd-retrieve-completed-todos"
+        className="btn btn-primary float-end"
         href={`${API}/${todo.id}/delete`}
       >
-        Delete Todo with ID = {todo.id}
+        Delete Todo with ID = {todo.id}{" "}
       </a>
       <input
-        id="wd-todo-delete-id"
         defaultValue={todo.id}
         className="form-control w-50"
         onChange={(e) => setTodo({ ...todo, id: e.target.value })}
       />
       <hr />
 
-      {/* Updating a todo's title */}
       <h3>Updating an Item in an Array</h3>
-      <a href={`${API}/${todo.id}/title/${todo.title}`} className="btn btn-primary float-end">
-        Update Todo</a>
-      <input defaultValue={todo.id} className="form-control w-25 float-start me-2"
-        onChange={(e) => setTodo({ ...todo, id: e.target.value })}/>
-      <input defaultValue={todo.title} className="form-control w-50 float-start"
-             onChange={(e) => setTodo({ ...todo, title: e.target.value }) }/>
-      <br /><br /><hr />
-
-{/* Updating a todo's completed property */}
-<h4>Updating Completed Property</h4>
-<label>
-  <input
-    type="checkbox"
-    className="form-check-input"
-    checked={todo.completed}
-    onChange={(e) =>
-      setTodo({ ...todo, completed: e.target.checked })
-    }
-  />
-  Completed
-</label>
-<a
-  id="wd-update-todo-completed"
-  className="btn btn-primary ms-2"
-  href={`${API}/${todo.id}/completed/${todo.completed}`}
->
-  Update Completed
-</a>
-<br /><br /><hr />
-
-{/* Updating a todo's description */}
-<h4>Updating Description</h4>
-<input
-  id="wd-todo-description"
-  value={todo.description}
-  className="form-control w-50"
-  onChange={(e) => setTodo({ ...todo, description: e.target.value })}
-/>
-<a
-  id="wd-update-todo-description"
-  className="btn btn-primary mt-2"
-  href={`${API}/${todo.id}/description/${todo.description}`}
->
-  Update Todo Description
-</a>
-<hr />
-
+      <input
+        defaultValue={todo.id}
+        className="form-control w-25 float-start me-2"
+        onChange={(e) => setTodo({ ...todo, id: e.target.value })}
+      />
+      <br />
+      <hr />
+      <input
+        defaultValue={todo.title}
+        className="form-control w-50 float-start"
+        onChange={(e) => setTodo({ ...todo, title: e.target.value })}
+      />
+      <a
+        href={`${API}/${todo.id}/title/${todo.title}`}
+        className="btn btn-primary float-end"
+      >
+        Update Todo Title
+      </a>
+      <hr/>
+      <br/>
+      <br/>
+      <input
+        defaultValue={todo.description}
+        className="form-control w-50 float-start"
+        onChange={(e) => setTodo({ ...todo, description: e.target.value })}
+      />
+      <a
+        href={`${API}/${todo.id}/description/${todo.description}`}
+        className="btn btn-primary float-end"
+      >
+        Update Todo Description
+      </a>
+      <hr/>
+      <br/>
+      <br/>
+      <input
+        className="form-check-input m-4"
+        type="checkbox"
+        checked={todo.completed}
+        onChange={(e) => setTodo({ ...todo, completed: e.target.checked })}
+      />
+      <a
+        href={`${API}/${todo.id}/completed/${todo.completed}`}
+        className="btn btn-primary float-end"
+      >
+        Update Todo Completed
+      </a>
+      <br />
+      <br />
+      <hr />
     </div>
   );
 }

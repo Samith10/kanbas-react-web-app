@@ -1,155 +1,111 @@
-import {setModules, addModule, editModule, updateModule, deleteModule } from "./reducer";
-import { useSelector, useDispatch } from "react-redux";
-import React, { useState, useEffect, useCallback } from "react";
-import { FaGripVertical, FaCaretDown, FaPlus, FaEllipsisVertical, FaCircleCheck } from 'react-icons/fa6';
-import "bootstrap/dist/js/bootstrap.bundle.min.js";
+import React, { useEffect, useState } from "react";
 import { useParams } from "react-router";
-import ModulesControls from "./ModulesControls";
-import ModuleControlButtons from "./ModuleControlButtons";
-import * as coursesClient from "./client";
 import * as modulesClient from "./client";
+import {
+  setModules,
+  addModule as addModuleAction,
+  editModule as editModuleAction,
+  updateModule as updateModuleAction,
+  deleteModule as deleteModuleAction,
+} from "./reducer";
+import { useSelector, useDispatch } from "react-redux";
+import * as coursesClient from "../client";
 
+
+import ModulesControls from "./ModuleControls";
+import LessonControlButtons from "./LessonControlButtons";
+import ModuleControlButtons from "./ModuleControlButtons";
+import { BsGripVertical } from "react-icons/bs";
 
 export default function Modules() {
   const { cid } = useParams();
   const [moduleName, setModuleName] = useState("");
   const { modules } = useSelector((state: any) => state.modulesReducer);
   const dispatch = useDispatch();
-const fetchModules = useCallback(async () => {
-  const modules = await coursesClient.findModulesForCourse(cid as string);
-  dispatch(setModules(modules));
-}, [cid, dispatch]);  // Memoize `fetchModules` with dependencies like `cid` and `dispatch`
 
-useEffect(() => {
-  fetchModules();
-}, [fetchModules]); 
+  const fetchModules = async () => {
+    const modules = await coursesClient.findModulesForCourse(cid as string);
+    dispatch(setModules(modules));
+  };
+  useEffect(() => {
+    fetchModules();
+  }, []);
+
 
   const createModuleForCourse = async () => {
     if (!cid) return;
     const newModule = { name: moduleName, course: cid };
     const module = await coursesClient.createModuleForCourse(cid, newModule);
-    dispatch(addModule(module));
-  };
-  const removeModule = async (moduleId: string) => {
-    await modulesClient.deleteModule(moduleId);
-    dispatch(deleteModule(moduleId));
-  };
-  const saveModule = async (module: any) => {
-    await modulesClient.updateModule(module);
-    dispatch(updateModule(module));
+    dispatch(addModuleAction(module));
   };
 
+  const removeModule = async (moduleId: string) => {
+    await modulesClient.deleteModule(moduleId);
+    dispatch(deleteModuleAction(moduleId));
+  };
+
+  const saveModule = async (module: any) => {
+    await modulesClient.updateModule(module);
+    dispatch(updateModuleAction(module));
+  };
 
 
 
   return (
-    <div id="wd-modules" className="container">
-      <ModulesControls 
-        moduleName={moduleName} 
-        setModuleName={setModuleName}
-        addModule={createModuleForCourse} 
-      />
-      {/* <div className="d-flex gap-1 mt-3">
-        <div className="input-group w-25 me-auto">
-          <span className="input-group-text">
-            <FaSearch />
-          </span>
-          <input 
-            type="text" 
-            className="form-control" 
-            placeholder="Search..." 
-            aria-label="Search for Module" 
-          />
-        </div>
-        <button type="button" className="btn btn-secondary">Collapse All</button>
-        <button type="button" className="btn btn-secondary">View Progress</button>
-        <div className="dropdown">
-          <button
-            className="btn btn-secondary dropdown-toggle"
-            type="button"
-            data-bs-toggle="dropdown"
-            aria-expanded="false"
-          >
-            <FaCircleCheck className="me-2" style={{ color: 'lightgreen' }} />
-            Publish All
-          </button>
-          <ul className="dropdown-menu">
-            <li>
-              <a className="dropdown-item" href="/dummy-publish-all">
-                <FaCircleCheck className="me-2" style={{ color: 'green' }} />
-                Publish all modules and items
-              </a>
-            </li>
-            <li>
-              <a className="dropdown-item" href="/dummy-publish-modules">
-                <FaCircleCheck className="me-2" style={{ color: 'green' }} />
-                Publish modules only
-              </a>
-            </li>
-            <li>
-              <a className="dropdown-item" href="/dummy-unpublish-all">
-                <AiOutlineStop className="me-2" style={{ color: 'gray' }} />
-                Unpublish all modules and items
-              </a>
-            </li>
-            <li>
-              <a className="dropdown-item" href="/dummy-unpublish-modules">
-                <AiOutlineStop className="me-2" style={{ color: 'gray' }} />
-                Unpublish modules only
-              </a>
-            </li>
-          </ul>
-        </div>
-        <button type="button" className="btn btn-danger">
-          <FaPlus className="me-1" /> Module
-        </button>
-      </div> */}
+    <div>
+       <ModulesControls setModuleName={setModuleName} moduleName={moduleName} addModule={createModuleForCourse} />
 
-      <ul className="list-group rounded-0">
+      <br />
+      <br />
+      <ul id="wd-modules" className="list-group rounded-0">
         {modules
+          // .filter((module: any) => module.course === cid)
           .map((module: any) => (
-            <li className="list-group-item list-group-item-secondary" key={module._id}>
-              <div className="d-flex justify-content-start align-items-center">
-                <FaGripVertical className="me-2" />
-                {module.editing ? (
+            <li
+              key={module._id}
+              className="wd-module list-group-item p-0 mb-5 fs-5 border-gray"
+            >
+              <div className="wd-title p-3 ps-2 bg-secondary d-flex align-items-center">
+                <BsGripVertical className="me-2 fs-3" />
+                {!module.editing ? (
+                  <span>{module.name}</span>
+                ) : (
                   <input
-                    className="form-control w-50 d-inline-block"
+                    className="form-control w-50 d-inline-block me-2"
                     onChange={(e) =>
-                      dispatch(updateModule({ ...module, name: e.target.value }))
+                      dispatch(
+                        updateModuleAction({ ...module, name: e.target.value })
+                      )
                     }
                     onKeyDown={(e) => {
                       if (e.key === "Enter") {
-                        saveModule({ ...module, editing: false });                      }
+                        saveModule({ ...module, editing: false });
+                      }
                     }}
                     defaultValue={module.name}
                   />
-                ) : (
-                  <>
-                    <span className="module-title flex-grow-1">{module.name}</span>
-                    <ModuleControlButtons
-                      moduleId={module._id}
-                      deleteModule={(moduleId) => removeModule(moduleId)}
-                      editModule={(moduleId) => dispatch(editModule(moduleId))}
-                    />
-                  </>
                 )}
-                <FaCircleCheck className="me-2" style={{ color: "green" }} />
-                <FaCaretDown className="me-2" />
-                <FaPlus className="me-3" />
-                <FaEllipsisVertical />
+                <div className="ms-auto">
+                <ModuleControlButtons moduleId={module._id}
+               deleteModule={(moduleId) => removeModule(moduleId)}
+
+                    editModule={(moduleId) => dispatch(editModuleAction(moduleId))}
+                  />
+                </div>
               </div>
-              {module.lessons && module.lessons.map((lesson: { name: string; }, subIndex: React.Key | null | undefined) => (
-                <li className="list-group-item module-border" key={subIndex}>
-                  <div className="d-flex justify-content-start align-items-center">
-                    <FaGripVertical className="me-2" />
-                    <div className="module-subtitle flex-grow-1">
-                      {lesson.name.toUpperCase()}
-                    </div>
-                    <FaCircleCheck className="me-3" style={{ color: "green" }} />
-                    <FaEllipsisVertical />
-                  </div>
-                </li>
-              ))}
+              {module.lessons && (
+                <ul className="wd-lessons list-group rounded-0">
+                  {module.lessons.map((lesson: any) => (
+                    <li
+                      key={lesson._id}
+                      className="wd-lesson list-group-item p-3 ps-1"
+                    >
+                      <BsGripVertical className="me-2 fs-3" /> {lesson.name}{" "}
+                      <LessonControlButtons />
+                    </li>
+                  ))}
+                </ul>
+              )}
             </li>
           ))}
       </ul>

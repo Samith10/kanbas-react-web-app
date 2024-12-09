@@ -1,22 +1,21 @@
-import './index.css';
-
-const StylingForms = () => {
-  return (
-    <div id="wd-css-styling-forms">
-      <h2>Forms</h2>
-      <div className="mb-3">
-        <label htmlFor="input1" className="form-label">
-          Email address
-        </label>
-        <input type="email" className="form-control" id="input1" placeholder="name@example.com" />
-      </div>
-      <div className="mb-3">
-        <label htmlFor="textarea1" className="form-label">
-          Example textarea
-        </label>
-        <textarea className="form-control" id="textarea1" rows={3}></textarea>
-      </div>
-      <div id="wd-css-styling-dropdowns">
+export default function BootstrapForms(){
+    return(
+        <div id="wd-css-styling-forms">
+  <h2>Forms</h2>
+  <div className="mb-3">
+    <label htmlFor="input1" className="form-label">
+      Email address</label>
+    <input type="email" className="form-control"
+      id="input1" placeholder="name@example.com"/>
+  </div>
+  <div className="mb-3">
+    <label htmlFor="textarea1" className="form-label">
+      Example textarea</label>
+    <textarea className="form-control" id="textarea1" 
+              rows={3}></textarea>
+  </div>
+  
+  <div id="wd-css-styling-dropdowns">
   <h3>Dropdowns</h3>
   <select className="form-select">
      <option selected>Open this select menu</option>
@@ -24,6 +23,8 @@ const StylingForms = () => {
      <option value="2">Two</option>
      <option value="3">Three</option>
   </select>
+
+
 </div>
 <div id="wd-css-styling-switches">
   <h3>Switches</h3>
@@ -34,6 +35,9 @@ const StylingForms = () => {
       Default switch checkbox input
     </label>
   </div>
+
+
+
   <div className="form-check form-switch">
     <input className="form-check-input" type="checkbox"
       id="switch2" checked />
@@ -56,6 +60,7 @@ const StylingForms = () => {
     </label>
   </div>
 </div>
+
 <div id="wd-css-styling-range-and-sliders">
   <h3>Range</h3>
   <label htmlFor="range1" className="form-label">
@@ -64,6 +69,7 @@ const StylingForms = () => {
   <input type="range" className="form-range"
     min="0" max="5" step="0.5" id="range1" />
 </div>
+
 <div id="wd-css-styling-addons">
   <h3>Addons</h3>
   <div className="input-group mb-3">
@@ -76,6 +82,9 @@ const StylingForms = () => {
     <span className="input-group-text">$</span>
     <span className="input-group-text">0.00</span>
   </div></div>
+
+
+
   <div id="wd-css-responsive-forms-1">
   <h3>Responsive forms</h3>
   <div className="mb-3 row">
@@ -104,6 +113,8 @@ const StylingForms = () => {
     </div>
   </div>
 </div>
+
+
 <div id="wd-css-responsive-forms-2">
   <h3>Responsive forms</h3>
   <form>
@@ -154,8 +165,9 @@ const StylingForms = () => {
   </form>
 </div>
 
-    </div>
-  );
-};
+  
+  </div>
 
-export default StylingForms;
+
+    )
+}
