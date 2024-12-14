@@ -1,128 +1,170 @@
+import React, { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { useNavigate, useLocation } from "react-router-dom";
+import { setCurrentUser } from "./reducer";
 import * as client from "./client";
-import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import { setCurrentUser } from "./reducer"
+
 export default function Profile() {
   const [profile, setProfile] = useState<any>({});
-  const navigate = useNavigate();
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [success, setSuccess] = useState<string | null>(null);
+
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const location = useLocation();
+  const { currentUser } = useSelector((state: any) => state.accountReducer);
+
+  /**
+   * Fetches the latest profile from the server and syncs with Redux.
+   */
   const fetchProfile = async () => {
     try {
-      const account = await client.profile();
-      console.log(account);
-      setProfile(account);
-    } catch (err: any) {
-      navigate("/Kanbas/Account/Signin");
+      const fetchedProfile = await client.profile();
+      setProfile(fetchedProfile);
+
+      // Update Redux store if fetched data differs from Redux state
+      if (JSON.stringify(currentUser) !== JSON.stringify(fetchedProfile)) {
+        dispatch(setCurrentUser(fetchedProfile));
+      }
+    } catch (err) {
+      console.error("Error fetching profile:", err);
+      setError("Failed to fetch profile. Please try again.");
+    } finally {
+      setLoading(false);
     }
   };
 
-  const signout = async () => {
-    await client.signout();
-    dispatch(setCurrentUser(null));
-    navigate("/Kanbas/Account/Signin");
+  /**
+   * Updates the user's profile on the server.
+   */
+  const updateProfile = async () => {
+    setError(null);
+    setSuccess(null);
+
+    try {
+      const updatedProfile = await client.updateUser(profile);
+      setProfile(updatedProfile); // Update local state
+      dispatch(setCurrentUser(updatedProfile)); // Update Redux state
+      setSuccess("Profile updated successfully! Relogin to see the changes");
+    } catch (err) {
+      console.error("Error updating profile:", err);
+      setError("Failed to update profile. Please try again.");
+    }
   };
 
+  /**
+   * Signs the user out by clearing the session and Redux state.
+   */
+  const signout = async () => {
+    try {
+      await client.signout();
+      dispatch(setCurrentUser(null));
+      navigate("/Kanbas/Account/Signin");
+    } catch (error) {
+      console.error("Error signing out:", error);
+      setError("Failed to sign out. Please try again.");
+    }
+  };
+
+  /**
+   * Fetch the profile data when the component mounts.
+   */
   useEffect(() => {
+    if (location.pathname === "/Kanbas/Account/Profile") {
     fetchProfile();
-  }, []);
+    }
+  }, [location]);
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
 
   return (
-    <div className="container mt-5">
-      <h1 className="mb-4">Profile</h1>
+    <div id="wd-profile-screen" className="container mt-5" style={{ maxWidth: "600px" }}>
+      <h3 className="text-center mb-4">Profile</h3>
+      {error && <div className="alert alert-danger">{error}</div>}
+      {success && <div className="alert alert-success">{success}</div>}
       {profile && (
-        <div>
+        <>
+          {/* Username */}
           <div className="mb-3">
-            <label htmlFor="username" className="form-label">
-              Username
-            </label>
+            <label htmlFor="wd-username" className="form-label fw-bold">Username</label>
             <input
-              type="text"
+              id="wd-username"
+              value={profile.username || ""}
+              onChange={(e) => setProfile({ ...profile, username: e.target.value })}
               className="form-control"
-              id="username"
-              value={profile.username}
-              onChange={(e) =>
-                setProfile({ ...profile, username: e.target.value })
-              }
+              disabled
             />
           </div>
+
+          {/* Password */}
           <div className="mb-3">
-            <label htmlFor="password" className="form-label">
-              Password
-            </label>
+            <label htmlFor="wd-password" className="form-label fw-bold">Password</label>
             <input
+              id="wd-password"
+              value={profile.password || ""}
+              onChange={(e) => setProfile({ ...profile, password: e.target.value })}
               type="password"
               className="form-control"
-              id="password"
-              value={profile.password}
-              onChange={(e) =>
-                setProfile({ ...profile, password: e.target.value })
-              }
             />
           </div>
+
+          {/* First Name */}
           <div className="mb-3">
-            <label htmlFor="firstName" className="form-label">
-              First Name
-            </label>
+            <label htmlFor="wd-firstname" className="form-label fw-bold">First Name</label>
             <input
-              type="text"
+              id="wd-firstname"
+              value={profile.firstName || ""}
+              onChange={(e) => setProfile({ ...profile, firstName: e.target.value })}
               className="form-control"
-              id="firstName"
-              value={profile.firstName}
-              onChange={(e) =>
-                setProfile({ ...profile, firstName: e.target.value })
-              }
             />
           </div>
+
+          {/* Last Name */}
           <div className="mb-3">
-            <label htmlFor="lastName" className="form-label">
-              Last Name
-            </label>
+            <label htmlFor="wd-lastname" className="form-label fw-bold">Last Name</label>
             <input
-              type="text"
+              id="wd-lastname"
+              value={profile.lastName || ""}
+              onChange={(e) => setProfile({ ...profile, lastName: e.target.value })}
               className="form-control"
-              id="lastName"
-              value={profile.lastName}
-              onChange={(e) =>
-                setProfile({ ...profile, lastName: e.target.value })
-              }
             />
           </div>
+
+          {/* Date of Birth */}
           <div className="mb-3">
-            <label htmlFor="dob" className="form-label">
-              Date of Birth
-            </label>
+            <label htmlFor="wd-dob" className="form-label fw-bold">Date of Birth</label>
             <input
+              id="wd-dob"
+              value={profile.dob || ""}
+              onChange={(e) => setProfile({ ...profile, dob: e.target.value })}
               type="date"
               className="form-control"
-              id="dob"
-              value={profile.dob}
-              onChange={(e) => setProfile({ ...profile, dob: e.target.value })}
             />
           </div>
+
+          {/* Email */}
           <div className="mb-3">
-            <label htmlFor="email" className="form-label">
-              Email
-            </label>
+            <label htmlFor="wd-email" className="form-label fw-bold">Email</label>
             <input
+              id="wd-email"
+              value={profile.email || ""}
+              onChange={(e) => setProfile({ ...profile, email: e.target.value })}
               type="email"
               className="form-control"
-              id="email"
-              value={profile.email}
-              onChange={(e) =>
-                setProfile({ ...profile, email: e.target.value })
-              }
             />
           </div>
+
+          {/* Role */}
           <div className="mb-3">
-            <label htmlFor="role" className="form-label">
-              Role
-            </label>
+            <label htmlFor="wd-role" className="form-label fw-bold">Role</label>
             <select
-              className="form-select"
-              id="role"
+              id="wd-role"
+              value={profile.role || "USER"}
               onChange={(e) => setProfile({ ...profile, role: e.target.value })}
-              value={profile.role}
+              className="form-control"
             >
               <option value="USER">User</option>
               <option value="ADMIN">Admin</option>
@@ -130,13 +172,25 @@ export default function Profile() {
               <option value="STUDENT">Student</option>
             </select>
           </div>
+
+          {/* Update Button */}
+          <button
+            onClick={updateProfile}
+            className="btn btn-primary w-100 mb-2"
+            id="wd-update-btn"
+          >
+            Update
+          </button>
+
+          {/* Sign Out Button */}
           <button
             onClick={signout}
-            className="wd-signout-btn btn btn-danger w-100"
+            className="btn btn-danger w-100"
+            id="wd-signout-btn"
           >
             Sign out
           </button>
-        </div>
+        </>
       )}
     </div>
   );

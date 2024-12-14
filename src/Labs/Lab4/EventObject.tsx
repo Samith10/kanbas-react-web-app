@@ -17,4 +17,4 @@ export default function EventObject() {
       <pre>{JSON.stringify(event, null, 2)}</pre>
       <hr/>
     </div>
-  );}
+);}

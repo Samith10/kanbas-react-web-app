@@ -1,3 +1,5 @@
+import React from "react";
+
 export default function SimpleArrays() {
   var functionScoped = 2;
   let blockScoped = 5;
@@ -6,12 +8,9 @@ export default function SimpleArrays() {
   let stringArray1 = ["string1", "string2"];
   let htmlArray1 = [<li>Buy milk</li>, <li>Feed the pets</li>];
   let variableArray1 = [
-    functionScoped,
-    blockScoped,
-    constant1,
-    numberArray1,
-    stringArray1,
+    functionScoped, blockScoped, constant1, numberArray1, stringArray1
   ];
+
   return (
     <div id="wd-simple-arrays">
       <h4>Simple Arrays</h4>

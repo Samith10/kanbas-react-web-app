@@ -1,3 +1,5 @@
+import React from "react";
+
 export default function VariableTypes() {
   let numberVariable = 123;
   let floatingPointNumber = 234.345;
@@ -6,6 +8,7 @@ export default function VariableTypes() {
   let isNumber = typeof numberVariable;
   let isString = typeof stringVariable;
   let isBoolean = typeof booleanVariable;
+
   return (
     <div id="wd-variable-types">
       <h4>Variables Types</h4>

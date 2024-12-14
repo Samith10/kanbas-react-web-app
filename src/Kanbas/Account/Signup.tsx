@@ -3,47 +3,86 @@ import { Link, useNavigate } from "react-router-dom";
 import * as client from "./client";
 import { useDispatch } from "react-redux";
 import { setCurrentUser } from "./reducer";
+
 export default function Signup() {
-  const [error, setError] = useState("");
-  const [user, setUser] = useState<any>({});
+  const [user, setUser] = useState<{ username?: string; password?: string; verifyPassword?: string }>({});
+  const [error, setError] = useState<string | null>(null);
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const signup = async () => {
+    if (!user.username || !user.password || !user.verifyPassword) {
+      setError("All fields are required.");
+      return;
+    }
+  
+    if (user.password !== user.verifyPassword) {
+      setError("Passwords do not match.");
+      return;
+    }
+  
     try {
-        const currentUser =  await client.signup(user);
-        dispatch(setCurrentUser(currentUser));
-      navigate("/Kanbas/Account/Profile");
+      // Create the new user
+      await client.signup({ username: user.username, password: user.password });
+  
+      // Redirect to the Sign In page
+      navigate("/Kanbas/Account/Signin");
     } catch (err: any) {
-      setError(err.response.data.message);
+      if (err.response?.status === 400) {
+        setError(err.response.data.message); // Display "Username already in use"
+      } else {
+        setError("Something went wrong. Please try again.");
+      }
     }
   };
 
   return (
-    <div className="wd-signup-screen">
-      <h1>Sign up</h1>
-      {error && <div className="wd-error alert alert-danger">{error}</div>}
+    <div id="wd-signup-screen" className="container mt-5" style={{ maxWidth: "400px" }}>
+      <h3 className="text-center mb-4">Sign up</h3>
+
+      {/* Display error message */}
+      {error && <div className="alert alert-danger mb-3">{error}</div>}
+
+      {/* Username Input */}
       <input
-        value={user.username}
+        id="wd-username"
+        placeholder="Username"
+        className="form-control mb-3"
+        value={user.username || ""}
         onChange={(e) => setUser({ ...user, username: e.target.value })}
-        className="wd-username form-control mb-2"
-        placeholder="username"
       />
+
+      {/* Password Input */}
       <input
-        value={user.password}
-        onChange={(e) => setUser({ ...user, password: e.target.value })}
+        id="wd-password"
+        placeholder="Password"
         type="password"
-        className="wd-password form-control mb-2"
-        placeholder="password"
+        className="form-control mb-3"
+        value={user.password || ""}
+        onChange={(e) => setUser({ ...user, password: e.target.value })}
       />
-      <button onClick={signup} className="wd-signup-btn btn btn-primary mb-2">
-        {" "}
-        Sign up{" "}
+
+      {/* Verify Password Input */}
+      <input
+        id="wd-verify-password"
+        placeholder="Verify Password"
+        type="password"
+        className="form-control mb-3"
+        value={user.verifyPassword || ""}
+        onChange={(e) => setUser({ ...user, verifyPassword: e.target.value })}
+      />
+
+      {/* Sign Up Button */}
+      <button onClick={signup} className="btn btn-primary w-100 mb-3">
+        Sign up
       </button>
-      <br />
-      <Link to="/Kanbas/Account/Signin" className="wd-signin-link">
-        Sign in
-      </Link>
+
+      <div className="text-center">
+        <Link id="wd-signin-link" to="/Kanbas/Account/Signin">
+          Already have an account? Sign in
+        </Link>
+      </div>
     </div>
   );
 }

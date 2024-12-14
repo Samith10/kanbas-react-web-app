@@ -1,92 +1,19 @@
-import React, { useState, useEffect } from "react";
-import * as client from "./client";
+import React from "react";
+import { FaUserCircle } from "react-icons/fa";
 import { Link } from "react-router-dom";
-import { FaUserCircle, FaPlus } from "react-icons/fa";
-import PeopleDetails from "./Details";
 
-export default function PeopleTable({ users: initialUsers = [] }: { users?: any[] }) {
-  const [userList, setUserList] = useState<any[]>([]); // Renamed state variable to avoid conflict
-  const [role, setRole] = useState("");
-  const filterUsersByRole = async (role: string) => {
-    setRole(role);
-    if (role) {
-      const fetchedUsers = await client.findUsersByRole(role);
-      setUserList(fetchedUsers);
-    } else {
-      fetchUsers();
-    }
-  };
-
-  const fetchUsers = async () => {
-    const fetchedUsers = await client.findAllUsers();
-    setUserList(fetchedUsers);
-  };
-
-  const [name, setName] = useState("");
-  const filterUsersByName = async (name: string) => {
-    setName(name);
-    if (name) {
-      const fetchedUsers = await client.findUsersByPartialName(name);
-      setUserList(fetchedUsers);
-    } else {
-      fetchUsers();
-    }
-  };
-
-  const createUser = async () => {
-    const newUser = await client.createUser({
-      firstName: "New",
-      lastName: `User${userList.length + 1}`,
-      username: `newuser${Date.now()}`,
-      password: "password123",
-      section: "S101",
-      role: "STUDENT",
-      email: "abc@abc.com",
-      loginId: generateLoginId()
-    });
-    setUserList([...userList, newUser]);
-  };
-
-  const generateLoginId = () => {
-    const randomNumber = Math.floor(Math.random() * 900000000) + 100000000;
-    const formattedNumber = String(randomNumber).padStart(9, "0");
-    return `${formattedNumber}S`;
-  };
-
-  useEffect(() => {
-    fetchUsers();
-  }, []);
+export default function PeopleTable({ users = [] }: { users?: any[] }) {
+  if (users.length === 0) {
+    return <p>No users found.</p>;
+  }
 
   return (
-    <div id="wd-people-table">
-      <button
-        onClick={createUser}
-        className="float-end btn btn-danger wd-add-people"
-      >
-        <FaPlus className="me-2" />
-        People
-      </button>
-      <input
-        onChange={(e) => filterUsersByName(e.target.value)}
-        placeholder="Search people"
-        className="form-control float-start w-25 me-2 wd-filter-by-name"
-      />
-      <select
-        value={role}
-        onChange={(e) => filterUsersByRole(e.target.value)}
-        className="form-select float-start w-25 wd-select-role"
-      >
-        <option value="">All Roles</option>
-        <option value="STUDENT">Students</option>
-        <option value="TA">Assistants</option>
-        <option value="FACULTY">Faculty</option>
-      </select>
-      <table className="table table-striped">
+    <div id="wd-people-table" className="table-responsive">
+      <table className="table table-striped table-bordered">
         <thead>
           <tr>
             <th>Name</th>
             <th>Login ID</th>
-            <th>Email</th>
             <th>Section</th>
             <th>Role</th>
             <th>Last Activity</th>
@@ -94,17 +21,19 @@ export default function PeopleTable({ users: initialUsers = [] }: { users?: any[
           </tr>
         </thead>
         <tbody>
-          {userList.map((user: any) => (
+          {users.map((user) => (
             <tr key={user._id}>
-              <td style={{ color: "red" }} className="wd-full-name text-nowrap">
-                <Link to={`${user.loginId}`}>
-                  <FaUserCircle className="text-secondary me-2 fs-1" />
+              <td className="wd-full-name text-nowrap">
+                <Link
+                  to={`/Kanbas/Account/Users/${user._id}`}
+                  className="text-decoration-none"
+                >
+                  <FaUserCircle className="me-2 fs-1 text-secondary" />
+                  <span className="wd-first-name">{user.firstName}</span>{" "}
+                  <span className="wd-last-name">{user.lastName}</span>
                 </Link>
-                <span className="wd-first-name">{user.firstName} </span>
-                <span className="wd-last-name">{user.lastName}</span>
               </td>
               <td className="wd-login-id">{user.loginId}</td>
-              <td className="wd-email">{user.email}</td>
               <td className="wd-section">{user.section}</td>
               <td className="wd-role">{user.role}</td>
               <td className="wd-last-activity">{user.lastActivity}</td>
@@ -113,7 +42,6 @@ export default function PeopleTable({ users: initialUsers = [] }: { users?: any[
           ))}
         </tbody>
       </table>
-      <PeopleDetails fetchUsers={fetchUsers} />
     </div>
   );
 }

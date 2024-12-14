@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+
 export default function BooleanStateVariables() {
   const [done, setDone] = useState(true);
   return (
@@ -6,12 +7,15 @@ export default function BooleanStateVariables() {
       <h2>Boolean State Variables</h2>
       <p>{done ? "Done" : "Not done"}</p>
       <label className="form-control">
-        <input type="checkbox" checked={done}
-               onChange={() => setDone(!done)} /> Done
+        <input
+          type="checkbox"
+          checked={done}
+          onChange={() => setDone(!done)}
+        />{" "}
+        Done
       </label>
-      {done && <div className="alert alert-success">
-               Yay! you are done</div>}
-      <hr/>
+      {done && <div className="alert alert-success">Yay! You are done</div>}
+      <hr />
     </div>
   );
 }

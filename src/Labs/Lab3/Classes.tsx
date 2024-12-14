@@ -1,30 +1,38 @@
-import "./Classes.css";
+import './Classes.css';
+
 export default function Classes() {
-  const color = "blue";
-  const dangerous = true;
+  const color = 'blue';
+  const dangerous = true; // Toggle this value to test red/green background
+
   return (
-    <div>
+    <div id="wd-classes">
       <h2>Classes</h2>
+
+      {/* Static Classes */}
       <div className="wd-bg-yellow wd-fg-black wd-padding-10px">
-        Yellow background{" "}
+        Yellow background
       </div>
       <div className="wd-bg-blue wd-fg-black wd-padding-10px">
-        Blue background{" "}
+        Blue background
       </div>
       <div className="wd-bg-red wd-fg-black wd-padding-10px">
-        Red background{" "}
+        Red background
       </div>
-      <hr />
 
+      {/* Dynamic Class */}
       <div className={`wd-bg-${color} wd-fg-black wd-padding-10px`}>
         Dynamic Blue background
       </div>
+
+      {/* Conditional Class */}
       <div
-        className={`${dangerous ? "wd-bg-red" : "wd-bg-green"}
-                                     wd-fg-black wd-padding-10px`}
+        className={`${dangerous ? 'wd-bg-red' : 'wd-bg-green'} 
+                    wd-fg-black wd-padding-10px`}
       >
         Dangerous background
       </div>
+
+      <hr />
     </div>
   );
 }

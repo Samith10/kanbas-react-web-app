@@ -1,73 +1,108 @@
 import React, { useState, useEffect } from "react";
-import * as client from "./client";
-import { FaTrash } from "react-icons/fa";
-import { FaPlusCircle } from "react-icons/fa";
+import { FaTrash, FaPlusCircle } from "react-icons/fa";
 import { TiDelete } from "react-icons/ti";
-import { FaPencil } from "react-icons/fa6";
+import { FaPencil } from "react-icons/fa6"; // Import pencil icon
+import * as client from "./client";
+
 export default function WorkingWithArraysAsynchronously() {
   const [todos, setTodos] = useState<any[]>([]);
-  const fetchTodos = async () => {
-    const todos = await client.fetchTodos();
-    setTodos(todos);
-  };
-  const removeTodo = async (todo: any) => {
-    const updatedTodos = await client.removeTodo(todo);
-    setTodos(updatedTodos);
-  };
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+
+  // Fetch todos on component mount
+  useEffect(() => {
+    const fetchTodos = async () => {
+      try {
+        const todos = await client.fetchTodos();
+        setTodos(todos);
+      } catch (error) {
+        setErrorMessage("Error fetching todos");
+      }
+    };
+    fetchTodos();
+  }, []);
+
+  // Create a new todo using GET
   const createTodo = async () => {
-    const todos = await client.createTodo();
-    setTodos(todos);
+    try {
+      const todos = await client.createTodo();
+      setTodos(todos);
+    } catch (error) {
+      setErrorMessage("Error creating todo");
+    }
   };
+
+  // Create a new todo using POST
   const postTodo = async () => {
-    const newTodo = await client.postTodo({
-      title: "New Posted Todo",
-      completed: false,
-    });
-    setTodos([...todos, newTodo]);
+    const newTaskNumber = todos.length + 1;
+    const title = `Task ${newTaskNumber}`;
+    try {
+      const newTodo = await client.postTodo({
+        title: title,
+        completed: false,
+      });
+      setTodos([...todos, newTodo]);
+    } catch (error) {
+      setErrorMessage("Error creating new todo");
+    }
   };
+
+  // Delete a todo using DELETE
+  const deleteTodo = async (todo: any) => {
+    try {
+      await client.deleteTodo(todo);
+      setTodos(todos.filter((t) => t.id !== todo.id));
+    } catch (error) {
+      setErrorMessage("Error deleting todo");
+    }
+  };
+
+  // Delete a todo using GET (old implementation)
+  const removeTodo = async (todo: any) => {
+    try {
+      const updatedTodos = await client.removeTodo(todo);
+      setTodos(updatedTodos);
+    } catch (error) {
+      setErrorMessage("Error removing todo");
+    }
+  };
+
+  // Update todo completion status
+  const toggleCompletion = async (todo: any) => {
+    try {
+      const updatedTodo = { ...todo, completed: !todo.completed };
+      await client.updateTodo(updatedTodo);
+      setTodos(todos.map((t) => (t.id === todo.id ? updatedTodo : t)));
+    } catch (error) {
+      setErrorMessage("Error updating todo");
+    }
+  };
+
+  // Enable editing mode for a todo
   const editTodo = (todo: any) => {
     const updatedTodos = todos.map((t) =>
       t.id === todo.id ? { ...todo, editing: true } : t
     );
     setTodos(updatedTodos);
   };
-  const [errorMessage, setErrorMessage] = useState(null);
+
+  // Update the title of a todo
   const updateTodo = async (todo: any) => {
     try {
       await client.updateTodo(todo);
       setTodos(todos.map((t) => (t.id === todo.id ? todo : t)));
-    } catch (error: any) {
-      setErrorMessage(error.response.data.message);
+    } catch (error) {
+      setErrorMessage("Error updating todo");
     }
   };
 
-  const deleteTodo = async (todo: any) => {
-    try {
-      await client.deleteTodo(todo);
-      const newTodos = todos.filter((t) => t.id !== todo.id);
-      setTodos(newTodos);
-    } catch (error: any) {
-      console.log(error);
-      setErrorMessage(error.response.data.message);
-    }
-  };
-
-  useEffect(() => {
-    fetchTodos();
-  }, []);
   return (
     <div id="wd-asynchronous-arrays">
       <h3>Working with Arrays Asynchronously</h3>
       {errorMessage && (
-        <div
-          id="wd-todo-error-message"
-          className="alert alert-danger mb-2 mt-2"
-        >
-          {errorMessage}
-        </div>
+        <div className="alert alert-danger mb-2">{errorMessage}</div>
       )}
       <h4>
-        Todos{" "}
+        Todos
         <FaPlusCircle
           onClick={createTodo}
           className="text-success float-end fs-3"
@@ -80,56 +115,56 @@ export default function WorkingWithArraysAsynchronously() {
         />
       </h4>
       <ul className="list-group">
-        {todos.map((todo) => (
-          <li key={todo.id} className="list-group-item">
-            <input
-              type="checkbox"
-              className="form-check-input me-2"
-              defaultChecked={todo.completed}
-              onChange={(e) =>
-                updateTodo({ ...todo, completed: e.target.checked })
-              }
-            />
-            {!todo.editing ? (
-               <span
-               style={{
-                 textDecoration: todo.completed ? "line-through" : "none",
-               }}
-             >
-               {todo.title}
-             </span>
-            ) : (
-              <input
-                className="form-control w-50 float-start"
-                defaultValue={todo.title}
-                onKeyDown={(e) => {
-                  console.log(e.key);
-                  if (e.key === "Enter") {
-                    updateTodo({ ...todo, editing: false });
-                  }
-                }}
-                onChange={(e) => updateTodo({ ...todo, title: e.target.value })}
+        {Array.isArray(todos) && todos.length > 0 ? (
+          todos.map((todo) => (
+            <li key={todo.id} className="list-group-item">
+              {/* Pencil icon for editing */}
+              <FaPencil
+                onClick={() => editTodo(todo)}
+                className="text-primary float-end me-2 mt-1"
+                id="wd-edit-todo"
               />
-            )}
-
-           
-            <FaPencil
-              onClick={() => editTodo(todo)}
-              className="text-primary float-end me-2 mt-1"
-            />
-
-            <TiDelete
-              onClick={() => deleteTodo(todo)}
-              className="text-danger float-end me-2 fs-3"
-              id="wd-delete-todo"
-            />
-            <FaTrash
-              onClick={() => removeTodo(todo)}
-              className="text-danger float-end mt-1"
-              id="wd-remove-todo"
-            />
-          </li>
-        ))}
+              {/* Trash icon for old delete */}
+              <FaTrash
+                onClick={() => removeTodo(todo)}
+                className="text-danger float-end mt-1"
+                id="wd-remove-todo"
+              />
+              {/* Delete icon for new implementation */}
+              <TiDelete
+                onClick={() => deleteTodo(todo)}
+                className="text-danger float-end me-2 fs-3"
+                id="wd-delete-todo"
+              />
+              {/* Checkbox for completion */}
+              <input
+                type="checkbox"
+                className="form-check-input me-2"
+                checked={todo.completed}
+                onChange={() => toggleCompletion(todo)}
+              />
+              {/* Editable title */}
+              {!todo.editing ? (
+                <span>{todo.title || "Untitled Todo"}</span>
+              ) : (
+                <input
+                  className="form-control w-50 float-start"
+                  defaultValue={todo.title}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter") {
+                      updateTodo({ ...todo, editing: false });
+                    }
+                  }}
+                  onChange={(e) =>
+                    updateTodo({ ...todo, title: e.target.value })
+                  }
+                />
+              )}
+            </li>
+          ))
+        ) : (
+          <li className="list-group-item text-muted">No todos available</li>
+        )}
       </ul>
       <hr />
     </div>
